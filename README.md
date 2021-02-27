@@ -31,7 +31,7 @@ This sniper was made because I just wanted to make a sniper for fun. It is also 
 
 1. Download OpenJDK 15 [here](https://adoptopenjdk.net/). Choose HotSpot as the JVM (cause that's the one I tested with, no other reason).
 2. Download the sniper [here]().
-3. Unzip the files and put it in an accessible directory in your computer.
+3. Unzip the files and move it to an accessible directory in your computer.
 
 ### Setting up an account
 
