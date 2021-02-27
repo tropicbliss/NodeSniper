@@ -14,7 +14,7 @@ This sniper was made because I just wanted to make a sniper for fun. It is also 
 
 ## Credits ❤️:
 
-- MCsniperPY
+- [MCsniperPY](https://github.com/MCsniperPY/MCsniperPY)
 - [This](https://mojang-api-docs.netlify.app/) Mojang API documentation
 - [NX's NameMC API](https://api.nathan.cx/)
 
