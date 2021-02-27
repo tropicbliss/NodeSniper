@@ -2,9 +2,9 @@
 
 A Minecraft username sniper made in Java.
 
-# Why is it called NodeSniper, especially since it is made in Java?
+## Why is it called NodeSniper, especially since it is made in Java?
 
-# Why
+## Why
 
 Because.
 
@@ -12,7 +12,7 @@ Because.
 
 This sniper was made because I just wanted to make a sniper for fun. It is also easy to use, platform-agnostic, and easily extensible.
 
-## Credits:
+## Credits ❤️:
 
 - MCsniperPY
 - This[https://mojang-api-docs.netlify.app/] Mojang API documentation
@@ -21,4 +21,13 @@ This sniper was made because I just wanted to make a sniper for fun. It is also 
 ### Dependencies used:
 
 - SnakeYAML[https://mvnrepository.com/artifact/org.yaml/snakeyaml]
-- Jackson [https://github.com/FasterXML/jackson]
+- Jackson[https://github.com/FasterXML/jackson]
+
+## Setup
+
+### Setting up an account
+
+### Setting up the delay
+
+
+## Usage
