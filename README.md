@@ -12,7 +12,7 @@ Because.
 
 ## Alright, jokes aside:
 
-This sniper was made because I just wanted to make a sniper for fun. It is also easy to use, platform-agnostic, and easily extensible. It is however quite a basic sniper at the moment, and don't expect frequent updates. Take note that this sniper doesn't yet support Microsoft account authentication.
+This sniper was made because I just wanted to make a sniper for fun. It is also easy to use, platform-agnostic, and easily extensible. It is however quite a basic sniper at the moment. I am in no way a professional, and don't expect frequent updates. Take note that this sniper doesn't yet support Microsoft account authentication.
 
 ## Credits ❤️
 
