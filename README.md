@@ -16,8 +16,8 @@ This sniper was made because I just wanted to make a sniper for fun. It is also 
 
 ## Credits ❤️:
 
-- [MCsniperPY](https://github.com/MCsniperPY/MCsniperPY)
-- [This](https://mojang-api-docs.netlify.app/) Mojang API documentation
+- [MCsniperPY](https://github.com/MCsniperPY/MCsniperPY) for referencing the APIs used.
+- [This](https://mojang-api-docs.netlify.app/) Mojang API documentation for the reference.
 - [NX's NameMC API](https://api.nathan.cx/)
 
 ### Dependencies used:
@@ -30,7 +30,7 @@ This sniper was made because I just wanted to make a sniper for fun. It is also 
 ### Installation
 
 1. Download OpenJDK 15 [here](https://adoptopenjdk.net/). Choose HotSpot as the JVM (cause that's the one I tested with, no other reason).
-2. Download the sniper [here]().
+2. Download the sniper [here](https://github.com/chronicallyunfunny/NodeSniper/releases/tag/v1.0).
 3. Unzip the files and move it to an accessible directory in your computer.
 
 ### Setting up an account
