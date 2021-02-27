@@ -14,7 +14,7 @@ Because.
 
 This sniper was made because I just wanted to make a sniper for fun. It is also easy to use, platform-agnostic, and easily extensible. It is however quite a basic sniper at the moment, and don't expect frequent updates. Take note that this sniper doesn't yet support Microsoft account authentication.
 
-## Credits ❤️:
+## Credits ❤️
 
 - [MCsniperPY](https://github.com/MCsniperPY/MCsniperPY) for referencing the APIs used.
 - [This](https://mojang-api-docs.netlify.app/) Mojang API documentation for the reference.
