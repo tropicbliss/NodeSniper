@@ -2,7 +2,7 @@
 
 A Minecraft username sniper made in Java.
 
-## Why is it called NodeSniper, especially since it is made in Java?
+## Why is it called NodeSniper, when it is made in Java?
 
 https://imgur.com/a/hixbvFt
 
