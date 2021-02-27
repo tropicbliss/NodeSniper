@@ -48,3 +48,7 @@ Navigate to the directory in which the sniper, account and config files are from
 ```
 java -jar NodeSniper-1.0.jar
 ```
+
+## Need help?
+
+If you are inexperienced it's probably better to use MCsniperPY instead, especially since it has a large community willing to help you. For any enquires DM me on Discord through MCsniperPY. My username is @chronicallyunfunny#1113.
