@@ -53,4 +53,4 @@ java -jar NodeSniper-1.0.jar
 
 ## Need help?
 
-If you are inexperienced it's probably better to use MCsniperPY instead, especially since it has a large community willing to help you.
+If you are inexperienced it's probably better to use MCsniperPY instead, especially since it has a large community willing to help you. Contact me privately through Discord.
