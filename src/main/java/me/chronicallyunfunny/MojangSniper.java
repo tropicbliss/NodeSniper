@@ -267,6 +267,5 @@ public class MojangSniper implements Sniper {
         var body = response.body();
         var node = new ObjectMapper().readTree(body);
         authToken = node.get("accessToken").asText();
-        System.out.println(authToken);
     }
 }
