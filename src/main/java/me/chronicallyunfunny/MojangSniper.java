@@ -53,7 +53,6 @@ public class MojangSniper implements Sniper {
         snipedUsername = scanner.next();
         if ((snipedUsername.length() < 3) || (snipedUsername.length() > 16) || (!(snipedUsername.matches("[A-Za-z0-9_]+"))))
             throw new GeneralSniperException("[GetUsernameChoice] You entered an invalid username.");
-        System.out.println("Warning: Some usernames may show up as available but has been blocked by Mojang. Sniping it will not work.");
     }
 
     @Override
@@ -134,6 +133,7 @@ public class MojangSniper implements Sniper {
         };
         // I've given up on making the code clean.
         if (turboSnipe) {
+            System.out.println("Warning: Some usernames may show up as available but has been blocked by Mojang. Sniping it will not work.");
             System.out.println("Signed in to " + username + ".");
             var uri = new URI("https://api.minecraftservices.com/minecraft/profile/namechange");
             snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken).PUT(HttpRequest.BodyPublishers.noBody()).build();
