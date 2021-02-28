@@ -28,7 +28,7 @@ public class MojangSniper implements Sniper {
     private String authToken = null;
     private String snipedUsername = null;
     private final String[] questionIDArray = new String[3];
-    private int delay;
+    private long delay;
     private Instant dropTime;
     private HttpRequest snipeRequest;
     private boolean turboSnipe = false;
@@ -76,7 +76,7 @@ public class MojangSniper implements Sniper {
         var fileName = Path.of("config.yml");
         var actual = Files.readString(fileName);
         var yaml = new Yaml();
-        Map<String, Integer> accountData = yaml.load(actual);
+        Map<String, Object> accountData = yaml.load(actual);
         delay = accountData.get("delay");
         System.out.println("Delay is set to " + delay + " ms.");
     }
