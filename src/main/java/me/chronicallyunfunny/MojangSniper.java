@@ -76,7 +76,7 @@ public class MojangSniper implements Sniper {
         var fileName = Path.of("config.yml");
         var actual = Files.readString(fileName);
         var yaml = new Yaml();
-        Map<String, Object> accountData = yaml.load(actual);
+        Map<String, Integer> accountData = yaml.load(actual);
         delay = accountData.get("delay");
         System.out.println("Delay is set to " + delay + " ms.");
     }
