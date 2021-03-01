@@ -48,7 +48,7 @@ Open "config.yml" and enter the delay you want to use in milliseconds. For more 
 Navigate to the directory in which the sniper, account and config files are from your terminal. Again if you are not sure MCsniperPY documents a similar process right [here](https://github.com/MCsniperPY/MCsniperPY#installing-dependencies). After that type in the following:
 
 ```
-java -jar NodeSniper-1.2.jar
+java -jar NodeSniper-1.3.jar
 ```
 
 ## Need help?
