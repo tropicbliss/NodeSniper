@@ -258,7 +258,7 @@ public class MojangSniper implements Sniper {
     public void authenticate() throws URISyntaxException, IOException, InterruptedException {
         var postJSON = "{\"agent\":{\"name\":\"Minecraft\",\"version\":1},\"username\":\"" + username + "\",\"password\":\"" + password + "\",\"clientToken\":\"Mojang-API-Client\",\"requestUser\":\"true\"}";
         var uri = new URI("https://authserver.mojang.com/authenticate");
-        var request = HttpRequest.newBuilder().uri(uri).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
+        var request = HttpRequest.newBuilder().uri(uri).headers("User-Agent", "X-Clacks-Overhead: GNU Terry Pratchett", "Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() == 403)
             throw new GeneralSniperException("[Authentication] Authentication error. Check if you have entered your username and password correctly.");
