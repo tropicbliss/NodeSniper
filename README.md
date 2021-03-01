@@ -30,7 +30,7 @@ This sniper was made because I just wanted to make a sniper for fun. It is also 
 ### Installation
 
 1. Download OpenJDK 15 [here](https://adoptopenjdk.net/). Choose HotSpot as the JVM (cause that's the one I tested with, no other reason).
-2. Download the sniper [here](https://github.com/chronicallyunfunny/NodeSniper/releases/download/v1.1/NodeSniper-1.1.zip).
+2. Download the sniper [here](https://github.com/chronicallyunfunny/NodeSniper/releases/download/v1.1/NodeSniper-1.2.zip).
 3. Unzip the files and move it to an accessible directory in your computer.
 
 ### Setting up an account
@@ -48,7 +48,7 @@ Open "config.yml" and enter the delay you want to use in milliseconds. For more 
 Navigate to the directory in which the sniper, account and config files are from your terminal. Again if you are not sure MCsniperPY documents a similar process right [here](https://github.com/MCsniperPY/MCsniperPY#installing-dependencies). After that type in the following:
 
 ```
-java -jar NodeSniper-1.1.jar
+java -jar NodeSniper-1.2.jar
 ```
 
 ## Need help?
