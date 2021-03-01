@@ -227,7 +227,7 @@ public class MojangSniper implements Sniper {
     public void sendSecurityQuestions() throws URISyntaxException, IOException, InterruptedException {
         var postJSON = "[{\"id\":" + questionIDArray[0] + ",\"answer\":\"" + sq1 + "\"},{\"id\":" + questionIDArray[1] + ",\"answer\":\"" + sq2 + "\"},{\"id\":" + questionIDArray[2] + ",\"answer\":\"" + sq3 + "\"}]";
         var uri = new URI("https://api.mojang.com/user/security/location");
-        var request = HttpRequest.newBuilder().uri(uri).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
+        var request = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken).POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
         var response = client.send(request, HttpResponse.BodyHandlers.discarding());
         if (response.statusCode() == 403)
             throw new GeneralSniperException("[SendSecurityQuestions] Authentication error. Check if you have entered your security questions correctly.");
