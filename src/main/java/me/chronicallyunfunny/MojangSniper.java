@@ -28,7 +28,7 @@ public class MojangSniper implements Sniper {
     private String authToken = null;
     private String snipedUsername = null;
     private final String[] questionIDArray = new String[3];
-    private long delay;
+    private int delay;
     private Instant dropTime;
     private HttpRequest snipeRequest;
     private boolean turboSnipe = false;
