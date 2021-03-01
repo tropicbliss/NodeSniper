@@ -30,7 +30,7 @@ This sniper was made because I just wanted to make a sniper for fun. It is also 
 ### Installation
 
 1. Download OpenJDK 15 [here](https://adoptopenjdk.net/). Choose HotSpot as the JVM (cause that's the one I tested with, no other reason).
-2. Download the sniper [here](https://github.com/chronicallyunfunny/NodeSniper/releases/download/v1.2/NodeSniper-1.2.zip).
+2. Download the sniper [here](https://github.com/chronicallyunfunny/NodeSniper/releases/download/v1.3/NodeSniper-1.3.zip).
 3. Unzip the files and move it to an accessible directory in your computer.
 
 ### Setting up an account
