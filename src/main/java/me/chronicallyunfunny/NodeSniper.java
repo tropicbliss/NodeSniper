@@ -11,10 +11,7 @@ public class NodeSniper {
     public static void main(String[] args) {
         try {
             Sniper sniper;
-            if (isMicrosoftAccount())
-                sniper = new MSASniper();
-            else
-                sniper = new MojangSniper();
+            sniper = (isMicrosoftAccount()) ? new MSASniper() : new MojangSniper();
             sniper.printSplashScreen();
             System.out.println("Initialising...");
             System.out.println();
