@@ -2,6 +2,10 @@
 
 A Minecraft username sniper made in Java.
 
+## New update?
+
+Microsoft authentication support is added. Further updates to this sniper will only be bug-fixes.
+
 ## Why is it called NodeSniper, when it is made in Java?
 
 https://imgur.com/a/hixbvFt
@@ -39,6 +43,10 @@ Open the file "account.yml" with a Notepad application and enter your username a
 
 Important info: A weird quirk of .yml files is after every colon in each field, you gotta put a space, otherwise the program will crash. I regret using YAML.
 
+### Indicating whether you are using a Mojang or Microsoft account
+
+Open "config.yml" and enter the true or false under the field "microsoftAuth".
+
 ### Setting up the delay
 
 Open "config.yml" and enter the delay you want to use in milliseconds. For more info on delays click [here](https://github.com/MCsniperPY/MCsniperPY#delays). Take note that the delay you use for MCsniperPY and this sniper is different. I honestly don't have enough accounts to test for delays so use whatever delay you like.
@@ -48,7 +56,7 @@ Open "config.yml" and enter the delay you want to use in milliseconds. For more 
 Navigate to the directory in which the sniper, account and config files are from your terminal. Again if you are not sure MCsniperPY documents a similar process right [here](https://github.com/MCsniperPY/MCsniperPY#installing-dependencies). After that type in the following:
 
 ```
-java -jar NodeSniper-1.3.jar
+java -jar NodeSniper-2.0.jar
 ```
 
 ## Need help?
