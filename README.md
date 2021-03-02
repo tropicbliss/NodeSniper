@@ -1,5 +1,7 @@
 # NodeSniper
 
+[![CodeFactor](https://www.codefactor.io/repository/github/chronicallyunfunny/nodesniper/badge/main)](https://www.codefactor.io/repository/github/chronicallyunfunny/nodesniper/overview/main)
+
 A Minecraft username sniper made in Java.
 
 ## New update?
