@@ -103,12 +103,12 @@ public class MojangSniper implements Sniper {
             public void run() {
                 try {
                     final var NO_OF_REQUESTS = 2;
-                    var accurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS").withZone(ZoneId.systemDefault());
                     AtomicBoolean isSuccessful = new AtomicBoolean(false);
                     List<CompletableFuture<Void>> completableFutures = new ArrayList<>();
                     for (var request = 1; request <= NO_OF_REQUESTS; request++) {
                         var snipe = client.sendAsync(snipeRequest, HttpResponse.BodyHandlers.discarding()).thenApply(HttpResponse::statusCode).thenAccept(code -> {
                             var now = Instant.now();
+                            var accurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS").withZone(ZoneId.systemDefault());
                             var accurateTime = accurateDateFormat.format(now);
                             var keyword = "fail";
                             if (code == 200) {
