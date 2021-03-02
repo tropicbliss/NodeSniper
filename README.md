@@ -1,6 +1,6 @@
 # NodeSniper
 
-<img src="https://img.shields.io/badge/Java-15-orange"> [![CodeFactor](https://www.codefactor.io/repository/github/chronicallyunfunny/nodesniper/badge/main)](https://www.codefactor.io/repository/github/chronicallyunfunny/nodesniper/overview/main)
+<img src="https://img.shields.io/badge/JDK-15-orange"> [![CodeFactor](https://www.codefactor.io/repository/github/chronicallyunfunny/nodesniper/badge/main)](https://www.codefactor.io/repository/github/chronicallyunfunny/nodesniper/overview/main)
 
 A Minecraft username sniper made in Java.
 
