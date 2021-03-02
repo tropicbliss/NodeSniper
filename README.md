@@ -47,7 +47,7 @@ Important info: A weird quirk of .yml files is after every colon in each field, 
 
 ### Indicating whether you are using a Mojang or Microsoft account
 
-Open "config.yml" and enter the true or false under the field "microsoftAuth".
+Open "config.yml" and enter true or false under the field "microsoftAuth".
 
 ### Setting up the delay
 
