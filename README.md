@@ -68,6 +68,6 @@ java -jar NodeSniper-2.0.jar
 
 If you are inexperienced it's probably better to use MCsniperPY instead, especially since it has a large community willing to help you.
 
-# Bug report
+## Bug reporting
 
 Feel free to use the GitHub issues tab or DM me @chronicallyunfunny#1113 through MCsniperPY's Discord.
