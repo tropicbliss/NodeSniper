@@ -70,4 +70,4 @@ If you are inexperienced it's probably better to use MCsniperPY instead, especia
 
 ## Bug reporting
 
-Feel free to use the GitHub issues tab or DM me @chronicallyunfunny#1113 through MCsniperPY's Discord.
+Feel free to use the GitHub issues tab or DM me @chronicallyunfunny#1113 through MCsniperPY's Discord. This is a new sniper so there may be tons of bugs.
