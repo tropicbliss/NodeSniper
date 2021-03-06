@@ -6,7 +6,7 @@ A Minecraft username sniper made in Java.
 
 ## New update?
 
-Microsoft authentication support is added. Further updates to this sniper will only be bug-fixes.
+Skin change feature after snipe added. Read on for more details.
 
 ## Why is it called NodeSniper, when it is made in Java?
 
@@ -18,7 +18,7 @@ Because.
 
 ## Alright, jokes aside:
 
-This sniper was made because I just wanted to make a sniper for fun. It is also easy to use, platform-agnostic, and easily extensible. It is however quite a basic sniper at the moment. I am in no way a professional, and don't expect frequent updates.
+This sniper was made because I just wanted to make a sniper for fun. It is also easy to use, platform-agnostic, and easily extensible. It is however quite a basic sniper at the moment. However, it does support Microsoft authentication. I am in no way a professional, and don't expect frequent updates.
 ## Credits ❤️
 
 - [MCsniperPY](https://github.com/MCsniperPY/MCsniperPY) for referencing the APIs used.
@@ -55,6 +55,14 @@ Open "config.yml" and enter the delay you want to use in milliseconds. For more 
 ### Additional config options
 
 Spread: Determines the amount of milliseconds the sniper waits after sending a request before sending the next. It's asynchronous so you don't have to worry about the receiving time.
+
+The following fields below concern the name change feature of NodeSniper:
+
+changeSkin: Determines whether to change skin after snipe.
+
+skinVarient: Choice between "classic" and "slim".
+
+skinFileName: The name of the skin file, with extensions of course.
 
 ## Usage
 
