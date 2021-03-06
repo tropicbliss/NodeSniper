@@ -60,7 +60,7 @@ The following fields below concern the name change feature of NodeSniper:
 
 changeSkin: Determines whether to change skin after snipe.
 
-skinVarient: Choice between "classic" and "slim".
+skinVariant: Choice between "classic" and "slim".
 
 skinFileName: The name of the skin file, with extensions of course.
 
