@@ -227,6 +227,6 @@ public class MSASniper implements Sniper {
         authToken = scanner.next();
         authTime = Instant.now();
         authToken = authToken.replaceAll("[\"]", "");
-        authToken = authToken.replaceAll("\\s+","");
+        authToken = authToken.replaceAll("\\s+", "");
     }
 }
