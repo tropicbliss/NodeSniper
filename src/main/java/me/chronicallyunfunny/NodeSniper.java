@@ -37,9 +37,11 @@ public class NodeSniper {
         var yaml = new Yaml();
         Map<String, Object> accountData = yaml.load(actual);
         if (!(boolean) (accountData.get("microsoftAuth"))) {
-            if ((boolean) (accountData.get("GCSnipe")))
-                throw new GeneralSniperException(
-                        "[sniperImplChooser] You cannot set \"microsoftAuth\" to false yet set \"GCSnipe\" to true.");
+            if ((boolean) (accountData.get("GCSnipe"))) {
+                System.out.println(
+                        "\"microsoftAuth\" is set to false yet \"GCSnipe\" is set to true. Defaulting to gift code sniping instead.");
+                return new GCSniper();
+            }
             return new MojangSniper();
         } else {
             if ((boolean) (accountData.get("GCSnipe")))
