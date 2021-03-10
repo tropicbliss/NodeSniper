@@ -59,7 +59,8 @@ public class MojangSniper implements Sniper {
         var scanner = new Scanner(System.in);
         System.out.print("What name will you like to snipe: ");
         snipedUsername = scanner.next().replaceAll("\\s+", "");
-        if ((snipedUsername.length() < 3) || (snipedUsername.length() > 16) || (!(snipedUsername.matches("[A-Za-z0-9_]+"))))
+        if ((snipedUsername.length() < 3) || (snipedUsername.length() > 16)
+                || (!(snipedUsername.matches("[A-Za-z0-9_]+"))))
             throw new GeneralSniperException("[GetUsernameChoice] You entered an invalid username.");
     }
 
@@ -70,13 +71,15 @@ public class MojangSniper implements Sniper {
         var yaml = new Yaml();
         Map<String, String> accountData = yaml.load(actual);
         username = accountData.get("username");
-        // a hack to protect against noob users whose passwords are made up of all numbers
+        // a hack to protect against noob users whose passwords are made up of all
+        // numbers
         password = String.valueOf(accountData.get("password"));
         sq1 = accountData.get("sq1");
         sq2 = accountData.get("sq2");
         sq3 = accountData.get("sq3");
         if ((username == null) || (password == null))
-            throw new GeneralSniperException("[ParseAccountFile] The username or password field in account.yml is empty.");
+            throw new GeneralSniperException(
+                    "[ParseAccountFile] The username or password field in account.yml is empty.");
     }
 
     @Override
@@ -103,12 +106,12 @@ public class MojangSniper implements Sniper {
         var request = HttpRequest.newBuilder().uri(uri).GET().build();
         var response = client.send(request, HttpResponse.BodyHandlers.discarding());
         switch (response.statusCode()) {
-            case 204:
-                return;
-            case 200:
-                throw new GeneralSniperException("[NameAvailabilityChecker] Name has been taken.");
-            default:
-                throw new GeneralSniperException("[NameAvailabilityChecker] HTTP status code: " + response.statusCode());
+        case 204:
+            return;
+        case 200:
+            throw new GeneralSniperException("[NameAvailabilityChecker] Name has been taken.");
+        default:
+            throw new GeneralSniperException("[NameAvailabilityChecker] HTTP status code: " + response.statusCode());
         }
     }
 
@@ -120,17 +123,19 @@ public class MojangSniper implements Sniper {
             public void run() {
                 try {
                     for (var request = 1; request <= NO_OF_REQUESTS; request++) {
-                        var snipe = client.sendAsync(snipeRequest, HttpResponse.BodyHandlers.discarding()).thenApply(HttpResponse::statusCode).thenAccept(code -> {
-                            var now = Instant.now();
-                            var accurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS").withZone(ZoneId.systemDefault());
-                            var accurateTime = accurateDateFormat.format(now);
-                            var keyword = "fail";
-                            if (code == 200) {
-                                isSuccessful.set(true);
-                                keyword = "success";
-                            }
-                            System.out.println("[" + keyword + "] " + code + " @ " + accurateTime);
-                        });
+                        var snipe = client.sendAsync(snipeRequest, HttpResponse.BodyHandlers.discarding())
+                                .thenApply(HttpResponse::statusCode).thenAccept(code -> {
+                                    var now = Instant.now();
+                                    var accurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
+                                            .withZone(ZoneId.systemDefault());
+                                    var accurateTime = accurateDateFormat.format(now);
+                                    var keyword = "fail";
+                                    if (code == 200) {
+                                        isSuccessful.set(true);
+                                        keyword = "success";
+                                    }
+                                    System.out.println("[" + keyword + "] " + code + " @ " + accurateTime);
+                                });
                         completableFutures.add(snipe);
                         Thread.sleep(spread);
                     }
@@ -142,10 +147,14 @@ public class MojangSniper implements Sniper {
                             var strFile = Base64.getEncoder().encodeToString(file);
                             var postJSON = "{\"file\":\"" + strFile + "\",\"variant\":\"" + skinVariant + "\"}";
                             var uri = new URI("https://api.minecraftservices.com/minecraft/profile/skins");
-                            var request = HttpRequest.newBuilder().uri(uri).headers("Authorization", "Bearer " + authToken, "Content-Type", "multipart/form-data").POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
+                            var request = HttpRequest.newBuilder().uri(uri)
+                                    .headers("Authorization", "Bearer " + authToken, "Content-Type",
+                                            "multipart/form-data")
+                                    .POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
                             var response = client.send(request, HttpResponse.BodyHandlers.discarding());
                             if (!(response.statusCode() == 200))
-                                throw new GeneralSniperException("[SkinChanger] HTTP status code: " + response.statusCode());
+                                throw new GeneralSniperException(
+                                        "[SkinChanger] HTTP status code: " + response.statusCode());
                             System.out.println("Successfully changed skin!");
                         }
                     }
@@ -160,18 +169,22 @@ public class MojangSniper implements Sniper {
         };
         // I've given up on making the code clean.
         if (turboSnipe) {
-            System.out.println("Warning: Some usernames may show up as available but has been blocked by Mojang. Sniping it will not work.");
+            System.out.println(
+                    "Warning: Some usernames may show up as available but has been blocked by Mojang. Sniping it will not work.");
             System.out.println("Signed in to " + username + ".");
             var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
-            snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken).PUT(HttpRequest.BodyPublishers.noBody()).build();
+            snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
+                    .PUT(HttpRequest.BodyPublishers.noBody()).build();
             System.out.println("Setup complete!");
             snipe.run();
         }
         var now = Instant.now();
-        var semiAccurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.systemDefault());
+        var semiAccurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                .withZone(ZoneId.systemDefault());
         var niceDropTime = semiAccurateDateFormat.format(dropTime);
         var diffInTime = (dropTime.getEpochSecond() - now.getEpochSecond()) / 60;
-        System.out.println("Sniping " + snipedUsername + " in ~" + diffInTime + " minutes | sniping at " + niceDropTime + ".");
+        System.out.println(
+                "Sniping " + snipedUsername + " in ~" + diffInTime + " minutes | sniping at " + niceDropTime + ".");
         var authenticationTime = Date.from(dropTime.minusSeconds(60));
         var delayAdjustedTime = Date.from(dropTime.minusMillis(delay));
         var timer1 = new Timer();
@@ -187,7 +200,8 @@ public class MojangSniper implements Sniper {
                     isNameAvailable();
                     System.out.println("Signed in to " + username + ".");
                     var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
-                    snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken).PUT(HttpRequest.BodyPublishers.noBody()).build();
+                    snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
+                            .PUT(HttpRequest.BodyPublishers.noBody()).build();
                     System.out.println("Setup complete!");
                     timer1.cancel();
                 } catch (Exception ex) {
@@ -200,7 +214,8 @@ public class MojangSniper implements Sniper {
         else {
             System.out.println("Signed in to " + username + ".");
             var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
-            snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken).PUT(HttpRequest.BodyPublishers.noBody()).build();
+            snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
+                    .PUT(HttpRequest.BodyPublishers.noBody()).build();
             System.out.println("Setup complete!");
         }
         timer2.schedule(snipe, delayAdjustedTime);
@@ -212,12 +227,14 @@ public class MojangSniper implements Sniper {
         var request = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken).GET().build();
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
         if (!(response.statusCode() == 200))
-            throw new GeneralSniperException("[NameChangeEligibilityChecker] HTTP status code: " + response.statusCode());
+            throw new GeneralSniperException(
+                    "[NameChangeEligibilityChecker] HTTP status code: " + response.statusCode());
         var body = response.body();
         var node = mapper.readTree(body);
         boolean isAllowed = node.get("nameChangeAllowed").asBoolean();
         if (!isAllowed)
-            throw new GeneralSniperException("[NameChangeEligibilityChecker] You cannot name change within the cooldown period.");
+            throw new GeneralSniperException(
+                    "[NameChangeEligibilityChecker] You cannot name change within the cooldown period.");
     }
 
     @Override
@@ -242,23 +259,26 @@ public class MojangSniper implements Sniper {
         var request = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken).GET().build();
         var response = client.send(request, HttpResponse.BodyHandlers.discarding());
         switch (response.statusCode()) {
-            case 204:
-                return false;
-            case 403:
-                return true;
-            default:
-                throw new GeneralSniperException("[SecurityQuestionsCheck] HTTP status code: " + response.statusCode());
+        case 204:
+            return false;
+        case 403:
+            return true;
+        default:
+            throw new GeneralSniperException("[SecurityQuestionsCheck] HTTP status code: " + response.statusCode());
         }
     }
 
     @Override
     public void sendSecurityQuestions() throws URISyntaxException, IOException, InterruptedException {
-        var postJSON = "[{\"id\":" + questionIDArray[0] + ",\"answer\":\"" + sq1 + "\"},{\"id\":" + questionIDArray[1] + ",\"answer\":\"" + sq2 + "\"},{\"id\":" + questionIDArray[2] + ",\"answer\":\"" + sq3 + "\"}]";
+        var postJSON = "[{\"id\":" + questionIDArray[0] + ",\"answer\":\"" + sq1 + "\"},{\"id\":" + questionIDArray[1]
+                + ",\"answer\":\"" + sq2 + "\"},{\"id\":" + questionIDArray[2] + ",\"answer\":\"" + sq3 + "\"}]";
         var uri = new URI("https://api.mojang.com/user/security/location");
-        var request = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken).POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
+        var request = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
+                .POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
         var response = client.send(request, HttpResponse.BodyHandlers.discarding());
         if (response.statusCode() == 403)
-            throw new GeneralSniperException("[SendSecurityQuestions] Authentication error. Check if you have entered your security questions correctly.");
+            throw new GeneralSniperException(
+                    "[SendSecurityQuestions] Authentication error. Check if you have entered your security questions correctly.");
         if (!(response.statusCode() == 204))
             throw new GeneralSniperException("[SendSecurityQuestions] HTTP status code: " + response.statusCode());
     }
@@ -284,12 +304,17 @@ public class MojangSniper implements Sniper {
 
     @Override
     public void authenticate() throws URISyntaxException, IOException, InterruptedException {
-        var postJSON = "{\"agent\":{\"name\":\"Minecraft\",\"version\":1},\"username\":\"" + username + "\",\"password\":\"" + password + "\",\"clientToken\":\"Mojang-API-Client\",\"requestUser\":\"true\"}";
+        var postJSON = "{\"agent\":{\"name\":\"Minecraft\",\"version\":1},\"username\":\"" + username
+                + "\",\"password\":\"" + password
+                + "\",\"clientToken\":\"Mojang-API-Client\",\"requestUser\":\"true\"}";
         var uri = new URI("https://authserver.mojang.com/authenticate");
-        var request = HttpRequest.newBuilder().uri(uri).headers("User-Agent", "X-Clacks-Overhead: GNU Terry Pratchett", "Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
+        var request = HttpRequest.newBuilder().uri(uri)
+                .headers("User-Agent", "X-Clacks-Overhead: GNU Terry Pratchett", "Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() == 403)
-            throw new GeneralSniperException("[Authentication] Authentication error. Check if you have entered your username and password correctly.");
+            throw new GeneralSniperException(
+                    "[Authentication] Authentication error. Check if you have entered your username and password correctly.");
         if (!(response.statusCode() == 200))
             throw new GeneralSniperException("[Authentication] HTTP status code: " + response.statusCode());
         var body = response.body();

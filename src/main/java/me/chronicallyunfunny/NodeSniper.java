@@ -10,8 +10,7 @@ import java.util.Map;
 public class NodeSniper {
     public static void main(String[] args) {
         try {
-            Sniper sniper;
-            sniper = isMicrosoftAccount() ? new MSASniper() : new MojangSniper();
+            var sniper = sniperImplChooser();
             sniper.printSplashScreen();
             System.out.println("Initialising...");
             System.out.println();
@@ -26,17 +25,27 @@ public class NodeSniper {
             sniper.checkNameAvailabilityTime();
             sniper.parseConfigFile();
             sniper.execute();
-        // gotta catch them all! ;)
+            // gotta catch them all! ;)
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public static boolean isMicrosoftAccount() throws IOException {
+    public static Sniper sniperImplChooser() throws IOException {
         var fileName = Path.of("config.yml");
         var actual = Files.readString(fileName);
         var yaml = new Yaml();
         Map<String, Object> accountData = yaml.load(actual);
-        return (boolean) accountData.get("microsoftAuth");
+        if (!(boolean) (accountData.get("microsoftAuth"))) {
+            if ((boolean) (accountData.get("GCSnipe")))
+                throw new GeneralSniperException(
+                        "[sniperImplChooser] You cannot set \"microsoftAuth\" to false yet set \"GCSnipe\" to true.");
+            return new MojangSniper();
+        } else {
+            if ((boolean) (accountData.get("GCSnipe")))
+                return new GCSniper();
+            else
+                return new MSASniper();
+        }
     }
 }
