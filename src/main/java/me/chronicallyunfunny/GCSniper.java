@@ -66,8 +66,6 @@ public class GCSniper implements Sniper {
 
     @Override
     public void parseAccountFile() throws IOException, URISyntaxException {
-        // TODO Auto-generated method stub
-
     }
 
     // Gets giftcode instead (this class implements Sniper interface and this sniper
