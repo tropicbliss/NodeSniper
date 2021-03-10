@@ -141,7 +141,7 @@ public class MojangSniper implements Sniper {
                     }
                     CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[0])).join();
                     if (isSuccessful.get()) {
-                        System.out.println("You have successfully sniped the name " + snipedUsername + ".");
+                        System.out.println("You have successfully sniped the name " + snipedUsername + "!");
                         if (isChangeSkin) {
                             var file = Files.readAllBytes(Path.of(skinPath));
                             var strFile = Base64.getEncoder().encodeToString(file);
@@ -158,7 +158,7 @@ public class MojangSniper implements Sniper {
                             System.out.println("Successfully changed skin!");
                         }
                     }
-                    System.out.print("Press enter to quit: ");
+                    System.out.print("Press ENTER to quit: ");
                     System.in.read();
                     timer2.cancel();
                     System.exit(0);
