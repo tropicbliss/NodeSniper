@@ -142,7 +142,7 @@ public class MojangSniper implements Sniper {
                             var strFile = Base64.getEncoder().encodeToString(file);
                             var postJSON = "{\"file\":\"" + strFile + "\",\"variant\":\"" + skinVariant + "\"}";
                             var uri = new URI("https://api.minecraftservices.com/minecraft/profile/skins");
-                            var request = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken).POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
+                            var request = HttpRequest.newBuilder().uri(uri).headers("Authorization", "Bearer " + authToken, "Content-Type", "multipart/form-data").POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
                             var response = client.send(request, HttpResponse.BodyHandlers.discarding());
                             if (!(response.statusCode() == 200))
                                 throw new GeneralSniperException("[SkinChanger] HTTP status code: " + response.statusCode());
