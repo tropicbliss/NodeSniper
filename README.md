@@ -79,7 +79,7 @@ java -jar NodeSniper-2.2.jar
 ## Packaging JAR file from source
 
 ```
-mvn package -f NodeSniper/pom.xml"
+mvn package -f "NodeSniper/pom.xml"
 ```
 
 ## Need help?
