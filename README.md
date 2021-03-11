@@ -76,6 +76,12 @@ Navigate to the directory in which the sniper, account and config files are from
 java -jar NodeSniper-2.2.jar
 ```
 
+## Packaging JAR file from source
+
+```
+mvn package -f NodeSniper/pom.xml"
+```
+
 ## Need help?
 
 If you are inexperienced it's probably better to use MCsniperPY instead, especially since it has a large community willing to help you.
