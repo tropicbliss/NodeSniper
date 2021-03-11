@@ -111,7 +111,7 @@ public class GCSniper implements Sniper {
         System.out.println("                                   /_/                 ");
         System.out.println();
         System.out.println("Developed by @chronicallyunfunny#1113 on Discord.");
-        System.out.println("WARNING: This is a preview version of NodeSniper. Do not redistribute.")
+        System.out.println("WARNING: This is a preview version of NodeSniper. Do not redistribute.");
         System.out.println();
         System.out.println("Initialising...");
         System.out.println();

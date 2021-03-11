@@ -61,6 +61,7 @@ public class MojangSniper implements Sniper {
         var scanner = new Scanner(System.in);
         System.out.print("What name will you like to snipe: ");
         snipedUsername = scanner.next().replaceAll("\\s+", "");
+        scanner.close();
         if ((snipedUsername.length() < 3) || (snipedUsername.length() > 16)
                 || (!(snipedUsername.matches("[A-Za-z0-9_]+"))))
             throw new GeneralSniperException("[GetUsernameChoice] You entered an invalid username.");
