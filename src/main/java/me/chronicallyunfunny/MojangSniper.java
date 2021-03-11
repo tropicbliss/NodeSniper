@@ -52,6 +52,8 @@ public class MojangSniper implements Sniper {
         System.out.println();
         System.out.println("Developed by @chronicallyunfunny#1113 on Discord.");
         System.out.println();
+        System.out.println("Initialising...");
+        System.out.println();
     }
 
     @Override

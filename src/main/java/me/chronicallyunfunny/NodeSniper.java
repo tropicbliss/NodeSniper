@@ -12,8 +12,6 @@ public class NodeSniper {
         try {
             var sniper = sniperImplChooser();
             sniper.printSplashScreen();
-            System.out.println("Initialising...");
-            System.out.println();
             sniper.parseAccountFile();
             sniper.authenticate();
             if (sniper.isSecurityQuestionsNeeded())
