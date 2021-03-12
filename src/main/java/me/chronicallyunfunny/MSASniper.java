@@ -57,7 +57,7 @@ public class MSASniper implements Sniper {
     @Override
     public void getUsernameChoice() {
         System.out.print("What name will you like to snipe: ");
-        snipedUsername = scanner.next().replaceAll("\\s+", "");
+        snipedUsername = scanner.nextLine().replaceAll("\\s+", "");
         if ((snipedUsername.length() < 3) || (snipedUsername.length() > 16)
                 || (!(snipedUsername.matches("[A-Za-z0-9_]+"))))
             throw new GeneralSniperException("[GetUsernameChoice] You entered an invalid username.");
@@ -246,7 +246,7 @@ public class MSASniper implements Sniper {
         System.out.println("Please make sure that your snipe will not last more than a day or the snipe will fail.");
         System.out.print(
                 "Sign in with your Microsoft account and copy the ID from the \"access_token\" field right here: ");
-        authToken = scanner.next();
+        authToken = scanner.nextLine();
         authToken = authToken.replaceAll("[\"]", "");
         authToken = authToken.replaceAll("\\s+", "");
     }

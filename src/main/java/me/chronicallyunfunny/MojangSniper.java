@@ -40,6 +40,7 @@ public class MojangSniper implements Sniper {
     private String skinVariant;
     private boolean isChangeSkin;
     private String skinPath;
+    private final Scanner scanner = new Scanner(System.in);
 
     @Override
     public void printSplashScreen() {
@@ -58,10 +59,8 @@ public class MojangSniper implements Sniper {
 
     @Override
     public void getUsernameChoice() {
-        var scanner = new Scanner(System.in);
         System.out.print("What name will you like to snipe: ");
-        snipedUsername = scanner.next().replaceAll("\\s+", "");
-        scanner.close();
+        snipedUsername = scanner.nextLine().replaceAll("\\s+", "");
         if ((snipedUsername.length() < 3) || (snipedUsername.length() > 16)
                 || (!(snipedUsername.matches("[A-Za-z0-9_]+"))))
             throw new GeneralSniperException("[GetUsernameChoice] You entered an invalid username.");
