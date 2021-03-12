@@ -59,7 +59,7 @@ public class GCSniper implements Sniper {
         System.out.println("Please make sure that your snipe will not last more than a day or the snipe will fail.");
         System.out.print(
                 "Sign in with your Microsoft account and copy the ID from the \"access_token\" field right here: ");
-        authToken = scanner.next();
+        authToken = scanner.nextLine();
         authToken = authToken.replaceAll("[\"]", "");
         authToken = authToken.replaceAll("\\s+", "");
     }
@@ -73,13 +73,12 @@ public class GCSniper implements Sniper {
     @Override
     public boolean isSecurityQuestionsNeeded() throws URISyntaxException, IOException, InterruptedException {
         System.out.print("Enter your gift code (press ENTER if you have already redeemed your gift code): ");
-        String input = scanner.nextLine();
+        String input = null;
+        input = scanner.nextLine();
         if (input.isEmpty())
             return false;
-        else {
-            giftCode = input;
-            return true;
-        }
+        giftCode = input.replaceAll("\\s+", "");
+        return true;
     }
 
     @Override
@@ -120,7 +119,7 @@ public class GCSniper implements Sniper {
     @Override
     public void getUsernameChoice() {
         System.out.print("What name will you like to snipe: ");
-        snipedUsername = scanner.next().replaceAll("\\s+", "");
+        snipedUsername = scanner.nextLine().replaceAll("\\s+", "");
         if ((snipedUsername.length() < 3) || (snipedUsername.length() > 16)
                 || (!(snipedUsername.matches("[A-Za-z0-9_]+"))))
             throw new GeneralSniperException("[GetUsernameChoice] You entered an invalid username.");
