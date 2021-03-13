@@ -29,7 +29,7 @@ public class GCSniper implements Sniper {
     private HttpRequest snipeRequest;
     private boolean turboSnipe = false;
     private final AtomicBoolean isSuccessful = new AtomicBoolean(false);
-    private final int NO_OF_REQUESTS = 10;
+    private final int NO_OF_REQUESTS = 6;
     private final List<CompletableFuture<Void>> completableFutures = new ArrayList<>();
     private final ObjectMapper mapper = new ObjectMapper();
     private final Scanner scanner = new Scanner(System.in);
