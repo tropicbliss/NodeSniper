@@ -22,7 +22,7 @@ Because.
 
 ## Alright, jokes aside:
 
-This sniper was made because I just wanted to make a sniper for fun. It is also easy to use, platform-agnostic, and easily extensible. It supports Microsoft authentication and soon many more cool features. I don't have all the time in the world to maintain this project, so I am only going to add important features and then call it a day. I'd like to move on to other projects that doesn't involve Java 🤮.
+This sniper was made because I just wanted to make a sniper for fun. It is also easy to use, platform-agnostic, and easily extensible. It supports Microsoft authentication and soon many more cool features. I don't have all the time in the world to maintain this project (I'm a fuckin' student), so I am only going to add important features and then call it a day. I'd like to move on to other projects that doesn't involve Java 🤮.
 
 ## Credits ❤️
 
