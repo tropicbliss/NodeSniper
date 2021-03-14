@@ -24,7 +24,7 @@ public class GCSniper implements Sniper {
     private final HttpClient client = HttpClient.newHttpClient();
     private String authToken = null;
     private String snipedUsername = null;
-    private int delay;
+    private int offset;
     private Instant dropTime;
     private HttpRequest snipeRequest;
     private boolean turboSnipe = false;
@@ -131,7 +131,7 @@ public class GCSniper implements Sniper {
         var actual = Files.readString(fileName);
         var yaml = new Yaml();
         Map<String, Object> accountData = yaml.load(actual);
-        delay = (int) accountData.get("delay");
+        offset = (int) accountData.get("offset");
         spread = (int) accountData.get("spread");
         skinVariant = (String) accountData.get("skinModel");
         skinVariant = skinVariant.toLowerCase();
@@ -140,7 +140,7 @@ public class GCSniper implements Sniper {
             if (!((skinVariant.equals("slim")) || (skinVariant.equals("classic"))))
                 throw new GeneralSniperException("[ConfigParser] Invalid skin type.");
         skinPath = (String) accountData.get("skinFileName");
-        System.out.println("Delay is set to " + delay + " ms.");
+        System.out.println("offset is set to " + offset + " ms.");
     }
 
     @Override
@@ -212,14 +212,14 @@ public class GCSniper implements Sniper {
         var diffInTime = (dropTime.getEpochSecond() - now.getEpochSecond()) / 60;
         System.out.println(
                 "Sniping " + snipedUsername + " in ~" + diffInTime + " minutes | sniping at " + niceDropTime + ".");
-        var delayAdjustedTime = Date.from(dropTime.minusMillis(delay));
+        var offsetAdjustedTime = Date.from(dropTime.minusMillis(offset));
         var postJSON = "{\"profileName\":\"" + snipedUsername + "\"}";
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile");
         snipeRequest = HttpRequest.newBuilder().uri(uri)
                 .headers("Accept", "application/json", "Authorization", "Bearer " + authToken)
                 .POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
         System.out.println("Setup complete!");
-        timer.schedule(snipe, delayAdjustedTime);
+        timer.schedule(snipe, offsetAdjustedTime);
     }
 
     @Override

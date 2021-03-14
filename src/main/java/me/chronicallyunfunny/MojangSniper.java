@@ -28,7 +28,7 @@ public class MojangSniper implements Sniper {
     private String authToken = null;
     private String snipedUsername = null;
     private final String[] questionIDArray = new String[3];
-    private int delay;
+    private int offset;
     private Instant dropTime;
     private HttpRequest snipeRequest;
     private boolean turboSnipe = false;
@@ -90,7 +90,7 @@ public class MojangSniper implements Sniper {
         var actual = Files.readString(fileName);
         var yaml = new Yaml();
         Map<String, Object> accountData = yaml.load(actual);
-        delay = (int) accountData.get("delay");
+        offset = (int) accountData.get("offset");
         spread = (int) accountData.get("spread");
         skinVariant = (String) accountData.get("skinModel");
         skinVariant = skinVariant.toLowerCase();
@@ -99,7 +99,7 @@ public class MojangSniper implements Sniper {
             if (!((skinVariant.equals("slim")) || (skinVariant.equals("classic"))))
                 throw new GeneralSniperException("[ConfigParser] Invalid skin type.");
         skinPath = (String) accountData.get("skinFileName");
-        System.out.println("Delay is set to " + delay + " ms.");
+        System.out.println("offset is set to " + offset + " ms.");
     }
 
     @Override
@@ -188,7 +188,7 @@ public class MojangSniper implements Sniper {
         System.out.println(
                 "Sniping " + snipedUsername + " in ~" + diffInTime + " minutes | sniping at " + niceDropTime + ".");
         var authenticationTime = Date.from(dropTime.minusSeconds(60));
-        var delayAdjustedTime = Date.from(dropTime.minusMillis(delay));
+        var offsetAdjustedTime = Date.from(dropTime.minusMillis(offset));
         var timer1 = new Timer();
         final TimerTask authentication = new TimerTask() {
             @Override
@@ -220,7 +220,7 @@ public class MojangSniper implements Sniper {
                     .PUT(HttpRequest.BodyPublishers.noBody()).build();
             System.out.println("Setup complete!");
         }
-        timer2.schedule(snipe, delayAdjustedTime);
+        timer2.schedule(snipe, offsetAdjustedTime);
     }
 
     @Override
