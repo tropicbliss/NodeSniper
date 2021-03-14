@@ -8,6 +8,10 @@ A Minecraft username sniper made in Java.
 
 Uses Kqzz's MC-API now.
 
+## NodeSniper-NG
+
+It now supports GC sniping and auto-delay, but you'll have to package the JAR file from source if you want those new shiny features since it is undergoing testing. Click [here](https://github.com/chronicallyunfunny/NodeSniper#packaging-jar-file-from-source) for the basic instructions.
+
 ## Why is it called NodeSniper, when it is made in Java?
 
 https://imgur.com/a/hixbvFt
@@ -18,7 +22,8 @@ Because.
 
 ## Alright, jokes aside:
 
-This sniper was made because I just wanted to make a sniper for fun. It is also easy to use, platform-agnostic, and easily extensible. It is however quite a basic sniper at the moment. However, it does support Microsoft authentication. I am in no way a professional, and don't expect frequent updates.
+This sniper was made because I just wanted to make a sniper for fun. It is also easy to use, platform-agnostic, and easily extensible. It supports Microsoft authentication and combines everything good about other free snipers into a single package.
+
 ## Credits ❤️
 
 - [MCsniperPY](https://github.com/MCsniperPY/MCsniperPY) for referencing the APIs used.
