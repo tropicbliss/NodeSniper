@@ -12,6 +12,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -38,6 +39,8 @@ public class MSASniper implements Sniper {
     private String skinVariant;
     private boolean isChangeSkin;
     private String skinPath;
+    private boolean isAutoOffset;
+    private final int BEST_CASE_RESPONSE_DURATION = 100;
 
     @Override
     public void printSplashScreen() {
@@ -68,21 +71,25 @@ public class MSASniper implements Sniper {
     }
 
     @Override
-    public void parseConfigFile() throws IOException {
+    public boolean parseConfigFile() throws IOException {
         var fileName = Path.of("config.yml");
         var actual = Files.readString(fileName);
         var yaml = new Yaml();
         Map<String, Object> accountData = yaml.load(actual);
-        offset = (int) accountData.get("offset");
         spread = (int) accountData.get("spread");
-        skinVariant = (String) accountData.get("skinModel");
-        skinVariant = skinVariant.toLowerCase();
+        skinVariant = ((String) accountData.get("skinModel")).toLowerCase();
+        isAutoOffset = (boolean) accountData.get("autoOffset");
         isChangeSkin = (boolean) accountData.get("changeSkin");
         if (isChangeSkin)
             if (!((skinVariant.equals("slim")) || (skinVariant.equals("classic"))))
                 throw new GeneralSniperException("[ConfigParser] Invalid skin type.");
         skinPath = (String) accountData.get("skinFileName");
-        System.out.println("offset is set to " + offset + " ms.");
+        if (!(isAutoOffset)) {
+            offset = (int) accountData.get("offset");
+            System.out.println("Offset is set to " + offset + " ms.");
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -166,7 +173,7 @@ public class MSASniper implements Sniper {
         var semiAccurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 .withZone(ZoneId.systemDefault());
         var niceDropTime = semiAccurateDateFormat.format(dropTime);
-        var diffInTime = (dropTime.getEpochSecond() - now.getEpochSecond()) / 60;
+        var diffInTime = Duration.between(now, dropTime).toMinutes();
         System.out.println(
                 "Sniping " + snipedUsername + " in ~" + diffInTime + " minutes | sniping at " + niceDropTime + ".");
         var offsetAdjustedTime = Date.from(dropTime.minusMillis(offset));
@@ -205,7 +212,7 @@ public class MSASniper implements Sniper {
         var node = mapper.readTree(body);
         try {
             dropTime = Instant.ofEpochSecond(node.get("droptime").asInt());
-            if (dropTime.getEpochSecond() - authTime.getEpochSecond() > 86_400)
+            if (Duration.between(authTime, dropTime).toSeconds() > 86_400)
                 throw new GeneralSniperException(
                         "[CheckNameAvailabilityTime] You cannot snipe a name available more than one day later if you are using a Microsoft account.");
         } catch (NullPointerException ex) {
@@ -249,5 +256,26 @@ public class MSASniper implements Sniper {
         authToken = scanner.nextLine();
         authToken = authToken.replaceAll("[\"]", "");
         authToken = authToken.replaceAll("\\s+", "");
+    }
+
+    @Override
+    public void autoOffsetCalculation() throws URISyntaxException, IOException, InterruptedException {
+        System.out.println("Calculating offset...");
+        var beforeSend = Instant.now();
+        var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
+        var request = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
+                .PUT(HttpRequest.BodyPublishers.noBody()).build();
+        var response = client.send(request, HttpResponse.BodyHandlers.discarding());
+        var afterSend = Instant.now();
+        offset = Math.toIntExact(Duration.between(beforeSend, afterSend).toMillis() - BEST_CASE_RESPONSE_DURATION);
+        if (response.statusCode() == 200) {
+            var accurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
+                    .withZone(ZoneId.systemDefault());
+            var accurateTime = accurateDateFormat.format(afterSend);
+            System.out.println("[success] 200 @ " + accurateTime);
+            System.out.println("You have successfully sniped the name " + snipedUsername + "!");
+            System.exit(0);
+        }
+        System.out.println("Offset is set to " + offset + " ms.");
     }
 }

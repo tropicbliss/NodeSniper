@@ -21,7 +21,8 @@ public class NodeSniper {
             sniper.getUsernameChoice();
             sniper.isNameAvailable();
             sniper.checkNameAvailabilityTime();
-            sniper.parseConfigFile();
+            if (sniper.parseConfigFile())
+                sniper.autoOffsetCalculation();
             sniper.execute();
             // gotta catch them all! ;)
         } catch (Exception ex) {

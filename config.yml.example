@@ -2,6 +2,7 @@
 # The delay field only accepts whole numbers or the program will crash.
 
 offset: 0
+autoOffset: false
 spread: 0
 microsoftAuth: false
 GCSnipe: false
