@@ -10,7 +10,7 @@ Uses Kqzz's MC-API now.
 
 ## NodeSniper-NG
 
-It now supports GC sniping and auto-delay, but you'll have to package the JAR file from source if you want those new shiny features since it is undergoing testing. Click [here](https://github.com/chronicallyunfunny/NodeSniper#packaging-jar-file-from-source) for the basic instructions.
+It now supports GC sniping and auto-delay, but you'll have to package the JAR file from source if you want those new shiny features since it is undergoing testing. Click [here](https://github.com/chronicallyunfunny/NodeSniper#packaging-jar-file-from-source) for basic instructions (if you're not a noob).
 
 ## Why is it called NodeSniper, when it is made in Java?
 
