@@ -58,7 +58,7 @@ Open "config.yml" and enter true or false under the field "microsoftAuth".
 
 Open "config.yml" and enter the delay you want to use in milliseconds. For more info on delays click [here](https://github.com/MCsniperPY/MCsniperPY#delays). Take note that the delay you use for MCsniperPY and this sniper is different. I honestly don't have enough accounts to test for delays so use whatever delay you like.
 
-### Changing skin after snipe (currently bugged)
+### Changing skin after snipe
 
 Move the skin file into the same directory as the JAR file.
 
