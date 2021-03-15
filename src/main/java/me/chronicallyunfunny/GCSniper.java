@@ -276,7 +276,6 @@ public class GCSniper implements Sniper {
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         var response = client.send(request, HttpResponse.BodyHandlers.discarding());
         var afterSend = Instant.now();
-        offset = Math.toIntExact(Duration.between(beforeSend, afterSend).toMillis() - BEST_CASE_RESPONSE_DURATION);
         if (response.statusCode() == 200) {
             var accurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
                     .withZone(ZoneId.systemDefault());
@@ -285,6 +284,7 @@ public class GCSniper implements Sniper {
             System.out.println("You have successfully sniped the name " + snipedUsername + "!");
             System.exit(0);
         }
+        offset = Math.toIntExact(Duration.between(beforeSend, afterSend).toMillis() - BEST_CASE_RESPONSE_DURATION);
         System.out.println("Offset is set to " + offset + " ms.");
     }
 }
