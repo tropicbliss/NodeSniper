@@ -30,7 +30,6 @@ public class GCSniper implements Sniper {
     private int offset;
     private Instant dropTime;
     private HttpRequest snipeRequest;
-    private boolean turboSnipe = false;
     private final AtomicBoolean isSuccessful = new AtomicBoolean(false);
     private final int NO_OF_REQUESTS = 6;
     private final List<CompletableFuture<Void>> completableFutures = new ArrayList<>();
@@ -204,18 +203,6 @@ public class GCSniper implements Sniper {
                 }
             }
         };
-        // I've given up on making the code clean.
-        if (turboSnipe) {
-            System.out.println(
-                    "Warning: Some usernames may show up as available but has been blocked by Mojang. Sniping it will not work.");
-            var postJSON = "{\"profileName\":\"" + snipedUsername + "\"}";
-            var uri = new URI("https://api.minecraftservices.com/minecraft/profile");
-            snipeRequest = HttpRequest.newBuilder().uri(uri)
-                    .headers("Accept", "application/json", "Authorization", "Bearer " + authToken)
-                    .POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
-            System.out.println("Setup complete!");
-            snipe.run();
-        }
         var now = Instant.now();
         var semiAccurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 .withZone(ZoneId.systemDefault());
@@ -248,7 +235,8 @@ public class GCSniper implements Sniper {
                 throw new GeneralSniperException(
                         "[CheckNameAvailabilityTime] You cannot snipe a name available more than one day later if you are using a Microsoft account.");
         } catch (NullPointerException ex) {
-            turboSnipe = true;
+            throw new GeneralSniperException(
+                    "[CheckNameAvailabilityTime] Username is freely available. Claim it manually via \"minecraft.net\".");
         }
     }
 
@@ -278,17 +266,8 @@ public class GCSniper implements Sniper {
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
         var request = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
-        var response = client.send(request, HttpResponse.BodyHandlers.discarding());
-        var afterSend = Instant.now();
-        if (response.statusCode() == 200) {
-            var accurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-                    .withZone(ZoneId.systemDefault());
-            var accurateTime = accurateDateFormat.format(afterSend);
-            System.out.println("[success] 200 @ " + accurateTime);
-            System.out.println("You have successfully sniped the name " + snipedUsername + "!");
-            System.exit(0);
-        }
-        offset = Math.toIntExact(Duration.between(beforeSend, afterSend).toMillis() - BEST_CASE_RESPONSE_DURATION);
+        client.send(request, HttpResponse.BodyHandlers.discarding());
+        offset = Math.toIntExact(Duration.between(beforeSend, Instant.now()).toMillis() - BEST_CASE_RESPONSE_DURATION);
         System.out.println("Offset is set to " + offset + " ms.");
     }
 
