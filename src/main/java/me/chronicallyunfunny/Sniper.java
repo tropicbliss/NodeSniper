@@ -2,8 +2,6 @@ package me.chronicallyunfunny;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.http.HttpRequest;
-import java.util.Map;
 
 public interface Sniper {
     void authenticate() throws URISyntaxException, IOException, InterruptedException;
@@ -31,6 +29,4 @@ public interface Sniper {
     void isNameChangeEligible() throws URISyntaxException, IOException, InterruptedException;
 
     void autoOffsetCalculation() throws URISyntaxException, IOException, InterruptedException;
-
-    HttpRequest.BodyPublisher ofMimeMultipartData(Map<Object, Object> data, String boundary) throws IOException;
 }

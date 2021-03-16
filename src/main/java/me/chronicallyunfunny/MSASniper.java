@@ -284,8 +284,8 @@ public class MSASniper implements Sniper {
 
     // Taken from golb.hplar.ch
     // Typical Java being Java or maybe I'm a little too used to batteries included
-    @Override
-    public HttpRequest.BodyPublisher ofMimeMultipartData(Map<Object, Object> data, String boundary) throws IOException {
+    private HttpRequest.BodyPublisher ofMimeMultipartData(Map<Object, Object> data, String boundary)
+            throws IOException {
         List<byte[]> byteArrays = new ArrayList<>();
         byte[] separator = ("--" + boundary + "\r\nContent-Disposition: form-data; name=")
                 .getBytes(StandardCharsets.UTF_8);
