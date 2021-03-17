@@ -4,13 +4,13 @@
 
 A Minecraft username sniper made in Java.
 
-## New update?
+## Features
 
-Uses Kqzz's MC-API now.
-
-## NodeSniper-NG
-
-It now supports GC sniping and auto-delay, but you'll have to package the JAR file from source if you want those new shiny features since it is undergoing testing. Click [here](https://github.com/chronicallyunfunny/NodeSniper#packaging-jar-file-from-source) for basic instructions (if you're not a noob).
+- Mojang account sniping
+- Microsoft account sniping
+- GC sniping (package from source if you want this feature)
+- Spread (delay between asynchronous sniping requests)
+- Auto offset (automatically calculating the offset, also known as delay for sniping, yes you also must package this from source if you want this feature)
 
 ## Why is it called NodeSniper, when it is made in Java?
 
