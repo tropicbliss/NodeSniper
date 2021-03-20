@@ -45,8 +45,7 @@ public class NodeSniper {
         } else {
             if ((boolean) (accountData.get("GCSnipe")))
                 return new GCSniper();
-            else
-                return new MSASniper();
+            return new MSASniper();
         }
     }
 }
