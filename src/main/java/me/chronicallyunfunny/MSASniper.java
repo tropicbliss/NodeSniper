@@ -61,7 +61,7 @@ public class MSASniper implements Sniper {
     @Override
     public void getUsernameChoice() {
         System.out.print("What name will you like to snipe: ");
-        snipedUsername = scanner.nextLine().replaceAll("\\s+", "");
+        snipedUsername = scanner.nextLine().strip();
         if ((snipedUsername.length() < 3) || (snipedUsername.length() > 16)
                 || (!(snipedUsername.matches("[A-Za-z0-9_]+"))))
             throw new GeneralSniperException("[GetUsernameChoice] You entered an invalid username.");
@@ -78,13 +78,13 @@ public class MSASniper implements Sniper {
         var yaml = new Yaml();
         Map<String, Object> accountData = yaml.load(actual);
         spread = (int) accountData.get("spread");
-        skinVariant = ((String) accountData.get("skinModel")).toLowerCase();
+        skinVariant = ((String) accountData.get("skinModel")).toLowerCase().strip();
         isAutoOffset = (boolean) accountData.get("autoOffset");
         isChangeSkin = (boolean) accountData.get("changeSkin");
         if (isChangeSkin)
             if (!((skinVariant.equals("slim")) || (skinVariant.equals("classic"))))
                 throw new GeneralSniperException("[ConfigParser] Invalid skin type.");
-        skinPath = (String) accountData.get("skinFileName");
+        skinPath = ((String) accountData.get("skinFileName")).strip();
         if (!(isAutoOffset)) {
             offset = (int) accountData.get("offset");
             System.out.println("Offset is set to " + offset + " ms.");
@@ -233,7 +233,7 @@ public class MSASniper implements Sniper {
         // Gives the user an illusion that something is happening.
         Thread.sleep(3_000);
         var uri = new URI(
-                "https://login.live.com/oauth20_authorize.srf?client_id=9abe16f4-930f-4033-b593-6e934115122f&response_type=code&redirect_uri=https%3A%2F%2Fmicroauth.tk%2Ftoken&scope=XboxLive.signin%20XboxLive.offline_access");
+                "https://login.live.com/oauth20_authorize.srf?client_id=9abe16f4-930f-4033-b593-6e934115122f&response_type=code&redirect_uri=https%3A%2F%2Fapi.gosnipe.tech%2Fapi%2Fauthenticate&scope=XboxLive.signin%20XboxLive.offline_access");
         authTime = Instant.now();
         try {
             Desktop.getDesktop().browse(uri);
@@ -241,14 +241,12 @@ public class MSASniper implements Sniper {
             System.out.println(
                     "Looks like you are running this program in a headless environment. Copy the following URL into your browser:");
             System.out.println(
-                    "https://login.live.com/oauth20_authorize.srf?client_id=9abe16f4-930f-4033-b593-6e934115122f&response_type=code&redirect_uri=https%3A%2F%2Fmicroauth.tk%2Ftoken&scope=XboxLive.signin%20XboxLive.offline_access");
+                    "https://login.live.com/oauth20_authorize.srf?client_id=9abe16f4-930f-4033-b593-6e934115122f&response_type=code&redirect_uri=https%3A%2F%2Fapi.gosnipe.tech%2Fapi%2Fauthenticate&scope=XboxLive.signin%20XboxLive.offline_access");
         }
         System.out.println("Please make sure that your snipe will not last more than a day or the snipe will fail.");
         System.out.print(
                 "Sign in with your Microsoft account and copy the ID from the \"access_token\" field right here: ");
-        authToken = scanner.nextLine();
-        authToken = authToken.replaceAll("[\"]", "");
-        authToken = authToken.replaceAll("\\s+", "");
+        authToken = scanner.nextLine().strip().replaceAll("[\"]", "");
     }
 
     @Override

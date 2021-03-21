@@ -64,7 +64,7 @@ public class MojangSniper implements Sniper {
     @Override
     public void getUsernameChoice() {
         System.out.print("What name will you like to snipe: ");
-        snipedUsername = scanner.nextLine().replaceAll("\\s+", "");
+        snipedUsername = scanner.nextLine().strip();
         if ((snipedUsername.length() < 3) || (snipedUsername.length() > 16)
                 || (!(snipedUsername.matches("[A-Za-z0-9_]+"))))
             throw new GeneralSniperException("[GetUsernameChoice] You entered an invalid username.");
@@ -76,13 +76,13 @@ public class MojangSniper implements Sniper {
         var actual = Files.readString(fileName);
         var yaml = new Yaml();
         Map<String, String> accountData = yaml.load(actual);
-        username = accountData.get("username");
+        username = accountData.get("username").strip();
         // a hack to protect against noob users whose passwords are made up of all
         // numbers
-        password = String.valueOf(accountData.get("password"));
-        sq1 = accountData.get("sq1");
-        sq2 = accountData.get("sq2");
-        sq3 = accountData.get("sq3");
+        password = String.valueOf(accountData.get("password")).strip();
+        sq1 = accountData.get("sq1").strip();
+        sq2 = accountData.get("sq2").strip();
+        sq3 = accountData.get("sq3").strip();
         if ((username == null) || (password == null))
             throw new GeneralSniperException(
                     "[ParseAccountFile] The username or password field in account.yml is empty.");
@@ -95,13 +95,13 @@ public class MojangSniper implements Sniper {
         var yaml = new Yaml();
         Map<String, Object> accountData = yaml.load(actual);
         spread = (int) accountData.get("spread");
-        skinVariant = ((String) accountData.get("skinModel")).toLowerCase();
+        skinVariant = ((String) accountData.get("skinModel")).toLowerCase().strip();
         isAutoOffset = (boolean) accountData.get("autoOffset");
         isChangeSkin = (boolean) accountData.get("changeSkin");
         if (isChangeSkin)
             if (!((skinVariant.equals("slim")) || (skinVariant.equals("classic"))))
                 throw new GeneralSniperException("[ConfigParser] Invalid skin type.");
-        skinPath = (String) accountData.get("skinFileName");
+        skinPath = ((String) accountData.get("skinFileName")).strip();
         if (!(isAutoOffset)) {
             offset = (int) accountData.get("offset");
             System.out.println("Offset is set to " + offset + " ms.");
