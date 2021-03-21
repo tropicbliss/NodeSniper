@@ -63,7 +63,7 @@ public class GCSniper implements Sniper {
         System.out.println("Please make sure that your snipe will not last more than a day or the snipe will fail.");
         System.out.print(
                 "Sign in with your Microsoft account and copy the ID from the \"access_token\" field right here: ");
-        authToken = scanner.nextLine().strip().replaceAll("[\"]", "");
+        authToken = scanner.nextLine().replaceAll("\\s+", "").replaceAll("[\"]", "");
     }
 
     @Override
@@ -79,7 +79,7 @@ public class GCSniper implements Sniper {
         input = scanner.nextLine();
         if (input.isEmpty())
             return false;
-        giftCode = input.strip();
+        giftCode = input.replaceAll("\\s+", "");
         return true;
     }
 
@@ -120,7 +120,7 @@ public class GCSniper implements Sniper {
     @Override
     public void getUsernameChoice() {
         System.out.print("What name will you like to snipe: ");
-        snipedUsername = scanner.nextLine().strip();
+        snipedUsername = scanner.nextLine().replaceAll("\\s+", "");
         if ((snipedUsername.length() < 3) || (snipedUsername.length() > 16)
                 || (!(snipedUsername.matches("[A-Za-z0-9_]+"))))
             throw new GeneralSniperException("[GetUsernameChoice] You entered an invalid username.");
@@ -133,13 +133,13 @@ public class GCSniper implements Sniper {
         var yaml = new Yaml();
         Map<String, Object> accountData = yaml.load(actual);
         spread = (int) accountData.get("spread");
-        skinVariant = ((String) accountData.get("skinModel")).toLowerCase().strip();
+        skinVariant = ((String) accountData.get("skinModel")).toLowerCase().replaceAll("\\s+", "");
         isAutoOffset = (boolean) accountData.get("autoOffset");
         isChangeSkin = (boolean) accountData.get("changeSkin");
         if (isChangeSkin)
             if (!((skinVariant.equals("slim")) || (skinVariant.equals("classic"))))
                 throw new GeneralSniperException("[ConfigParser] Invalid skin type.");
-        skinPath = ((String) accountData.get("skinFileName")).strip();
+        skinPath = ((String) accountData.get("skinFileName")).replaceAll("\\s+", "");
         if (!(isAutoOffset)) {
             offset = (int) accountData.get("offset");
             System.out.println("Offset is set to " + offset + " ms.");
