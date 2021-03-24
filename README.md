@@ -8,9 +8,9 @@ A Minecraft username sniper made in Java.
 
 - Mojang account sniping
 - Microsoft account sniping
-- GC sniping (package from source if you want this feature)
+- GC sniping
 - Spread (delay between asynchronous sniping requests)
-- Auto offset (automatically calculating the offset, also known as delay for sniping, yes you also must package this from source if you want this feature)
+- Auto offset
 
 ## Why is it called NodeSniper, when it is made in Java?
 
@@ -66,6 +66,10 @@ Move the skin file into the same directory as the JAR file.
 
 Spread: Determines the amount of milliseconds the sniper waits after sending a request before sending the next. It's asynchronous so you don't have to worry about the receiving time.
 
+GCSnipe: Yes
+
+autoOffset: Enables auto offset calculation. Use this for finding out your offset for the first time sniping. Use this calculated offset value to adjust your offset for your subsequent snipes. Do not rely on this feature for consistent snipes.
+
 The following fields below concern the name change feature of NodeSniper:
 
 changeSkin: Determines whether to change skin after snipe.
@@ -79,7 +83,7 @@ skinFileName: The name of the skin file, with extensions of course.
 Navigate to the directory in which the sniper, account and config files are from your terminal. Again if you are not sure MCsniperPY documents a similar process right [here](https://github.com/MCsniperPY/MCsniperPY#installing-dependencies). After that type in the following:
 
 ```
-java -jar NodeSniper-2.2.jar
+java -jar NodeSniper-2.3.jar
 ```
 
 ## Packaging JAR file from source
