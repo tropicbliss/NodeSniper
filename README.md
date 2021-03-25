@@ -12,6 +12,11 @@ A Minecraft username sniper made in Java.
 - Spread (delay between asynchronous sniping requests)
 - Auto offset
 
+## To-do
+
+- Refactor the code cuz it is terrible
+- OAuth2 support for MSA
+
 ## Why is it called NodeSniper, when it is made in Java?
 
 https://imgur.com/a/hixbvFt
@@ -22,7 +27,7 @@ Because.
 
 ## Alright, jokes aside:
 
-This sniper was made because I just wanted to make a sniper for fun. It is also easy to use, platform-agnostic, and easily extensible. It supports Microsoft authentication and soon many more cool features. I don't have all the time in the world to maintain this project (I'm a fuckin' student), so I am only going to add important features and then call it a day. I'd like to move on to other projects that doesn't involve Java 🤮. Also yea I'm going to try to refactor the code so you should not be able to see the terribleness that happens behind the scenes in the future.
+This sniper was made because I just wanted to make a sniper for fun. It is also easy to use, platform-agnostic, and easily extensible. It supports Microsoft authentication and soon many more cool features. I don't have all the time in the world to maintain this project (I'm a fuckin' student), so I am only going to add important features and then call it a day. I'd like to move on to other projects that doesn't involve Java 🤮.
 
 ## Credits ❤️
 
