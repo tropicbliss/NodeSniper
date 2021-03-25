@@ -16,7 +16,7 @@ A Minecraft username sniper made in Java.
 
 - Refactor the code cuz it is terrible
 - Better config input validation
-- OAuth2 support for MSA
+- OAuth2 support for MSA (really not impt cuz most people snipe in VPS which runs headlessly)
 
 ## Why is it called NodeSniper, when it is made in Java?
 
