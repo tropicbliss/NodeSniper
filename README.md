@@ -10,7 +10,7 @@ A Minecraft username sniper made in Java.
 - Microsoft account sniping
 - GC sniping
 - Spread (delay between asynchronous sniping requests)
-- Auto offset
+- Auto offset (never rely on this feature for reliable sniping, it should only be used to gauge the delay for first time snipers, adjust upon that delay for subsequent snipes)
 
 ## Why is it called NodeSniper, when it is made in Java?
 
