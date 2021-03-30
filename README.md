@@ -40,7 +40,7 @@ This sniper was made because I just wanted to make a sniper for fun. It is also 
 ### Installation
 
 1. Download OpenJDK 11 [here](https://adoptopenjdk.net/). Choose HotSpot as the JVM (cause that's the one I tested with, no other reason).
-2. Download the sniper [here](https://github.com/chronicallyunfunny/NodeSniper/releases/download/2.3/NodeSniper-2.3.zip).
+2. Download the sniper [here](https://github.com/chronicallyunfunny/NodeSniper/releases/download/2.4/NodeSniper-2.4.zip).
 3. Unzip the files and move it to an accessible directory in your computer.
 4. Set up Dimension 4 / `chronyd` and shit. If you came from MCsniperPY you should know.
 
@@ -83,7 +83,7 @@ skinFileName: The name of the skin file, with extensions of course.
 Navigate to the directory in which the sniper, account and config files are from your terminal. Again if you are not sure MCsniperPY documents a similar process right [here](https://github.com/MCsniperPY/MCsniperPY#installing-dependencies). After that type in the following:
 
 ```
-java -jar NodeSniper-2.3.jar
+java -jar NodeSniper-2.4.jar
 ```
 
 ## Packaging JAR file from source
