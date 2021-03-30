@@ -43,8 +43,6 @@ public class MojangSniper implements Sniper {
     private boolean isChangeSkin;
     private String skinPath;
     private final Scanner scanner = new Scanner(System.in);
-    private boolean isAutoOffset;
-    private final int BEST_CASE_RESPONSE_DURATION = 100;
 
     @Override
     public void printSplashScreen() {
@@ -66,7 +64,7 @@ public class MojangSniper implements Sniper {
         System.out.print("What name will you like to snipe: ");
         snipedUsername = scanner.nextLine().strip();
         if ((snipedUsername.length() < 3) || (snipedUsername.length() > 16)
-                || (!(snipedUsername.matches("[A-Za-z0-9_]+"))))
+                || (!snipedUsername.matches("[A-Za-z0-9_]+")))
             throw new GeneralSniperException("[GetUsernameChoice] You entered an invalid username.");
     }
 
@@ -95,14 +93,16 @@ public class MojangSniper implements Sniper {
         var yaml = new Yaml();
         Map<String, Object> accountData = yaml.load(actual);
         spread = (int) accountData.get("spread");
+        if (spread < 0)
+            throw new GeneralSniperException("[ConfigParser] Spread cannot be lower than 0.");
         skinVariant = ((String) accountData.get("skinModel")).toLowerCase().strip();
-        isAutoOffset = (boolean) accountData.get("autoOffset");
+        boolean isAutoOffset = (boolean) accountData.get("autoOffset");
         isChangeSkin = (boolean) accountData.get("changeSkin");
         if (isChangeSkin)
             if (!((skinVariant.equals("slim")) || (skinVariant.equals("classic"))))
                 throw new GeneralSniperException("[ConfigParser] Invalid skin type.");
         skinPath = ((String) accountData.get("skinFileName")).strip();
-        if (!(isAutoOffset)) {
+        if (!isAutoOffset) {
             offset = (int) accountData.get("offset");
             System.out.println("Offset is set to " + offset + " ms.");
             return false;
@@ -147,7 +147,8 @@ public class MojangSniper implements Sniper {
                                     System.out.println("[" + keyword + "] " + code + " @ " + accurateTime);
                                 });
                         completableFutures.add(snipe);
-                        Thread.sleep(spread);
+                        if (spread != 0)
+                            Thread.sleep(spread);
                     }
                     CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[0])).join();
                     if (isSuccessful.get()) {
@@ -163,7 +164,7 @@ public class MojangSniper implements Sniper {
                                             "multipart/form-data;boundary=" + boundary)
                                     .POST(ofMimeMultipartData(data, boundary)).build();
                             var response = client.send(request, HttpResponse.BodyHandlers.discarding());
-                            if (!(response.statusCode() == 200))
+                            if (response.statusCode() != 200)
                                 throw new GeneralSniperException(
                                         "[SkinChanger] HTTP status code: " + response.statusCode());
                             System.out.println("Successfully changed skin!");
@@ -226,7 +227,7 @@ public class MojangSniper implements Sniper {
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile/namechange");
         var request = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken).GET().build();
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        if (!(response.statusCode() == 200))
+        if (response.statusCode() != 200)
             throw new GeneralSniperException(
                     "[NameChangeEligibilityChecker] HTTP status code: " + response.statusCode());
         var body = response.body();
@@ -242,7 +243,7 @@ public class MojangSniper implements Sniper {
         var uri = new URI("https://api.kqzz.me/api/namemc/droptime/" + snipedUsername);
         var request = HttpRequest.newBuilder().uri(uri).GET().build();
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        if (!(response.statusCode() == 200))
+        if (response.statusCode() != 200)
             throw new GeneralSniperException("[CheckNameAvailabilityTime] HTTP status code: " + response.statusCode());
         var body = response.body();
         var node = mapper.readTree(body);
@@ -280,7 +281,7 @@ public class MojangSniper implements Sniper {
         if (response.statusCode() == 403)
             throw new GeneralSniperException(
                     "[SendSecurityQuestions] Authentication error. Check if you have entered your security questions correctly.");
-        if (!(response.statusCode() == 204))
+        if (response.statusCode() != 204)
             throw new GeneralSniperException("[SendSecurityQuestions] HTTP status code: " + response.statusCode());
     }
 
@@ -289,7 +290,7 @@ public class MojangSniper implements Sniper {
         var uri = new URI("https://api.mojang.com/user/security/challenges");
         var request = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken).GET().build();
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        if (!(response.statusCode() == 200))
+        if (response.statusCode() != 200)
             throw new GeneralSniperException("[GetSecurityQuestions] HTTP status code: " + response.statusCode());
         var body = response.body();
         if (body.equals("[]"))
@@ -316,7 +317,7 @@ public class MojangSniper implements Sniper {
         if (response.statusCode() == 403)
             throw new GeneralSniperException(
                     "[Authentication] Authentication error. Check if you have entered your username and password correctly.");
-        if (!(response.statusCode() == 200))
+        if (response.statusCode() != 200)
             throw new GeneralSniperException("[Authentication] HTTP status code: " + response.statusCode());
         var body = response.body();
         var node = mapper.readTree(body);
@@ -331,6 +332,7 @@ public class MojangSniper implements Sniper {
         var request = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         client.send(request, HttpResponse.BodyHandlers.discarding());
+        int BEST_CASE_RESPONSE_DURATION = 100;
         offset = Math.toIntExact(Duration.between(beforeSend, Instant.now()).toMillis() - BEST_CASE_RESPONSE_DURATION);
         System.out.println("Offset is set to " + offset + " ms.");
     }

@@ -41,8 +41,6 @@ public class GCSniper implements Sniper {
     private String skinVariant;
     private boolean isChangeSkin;
     private String skinPath;
-    private boolean isAutoOffset;
-    private final int BEST_CASE_RESPONSE_DURATION = 100;
 
     @Override
     public void authenticate() throws URISyntaxException, IOException, InterruptedException {
@@ -67,15 +65,15 @@ public class GCSniper implements Sniper {
     }
 
     @Override
-    public void parseAccountFile() throws IOException, URISyntaxException {
+    public void parseAccountFile() {
     }
 
     // Gets giftcode instead (this class implements Sniper interface and this sniper
     // is not meant to GCSnipe)
     @Override
-    public boolean isSecurityQuestionsNeeded() throws URISyntaxException, IOException, InterruptedException {
+    public boolean isSecurityQuestionsNeeded() {
         System.out.print("Enter your gift code (press ENTER if you have already redeemed your gift code): ");
-        String input = null;
+        String input;
         input = scanner.nextLine();
         if (input.isEmpty())
             return false;
@@ -84,7 +82,7 @@ public class GCSniper implements Sniper {
     }
 
     @Override
-    public void sendSecurityQuestions() throws URISyntaxException, IOException, InterruptedException {
+    public void sendSecurityQuestions() {
     }
 
     // Redeems gift code (like I said, had to do this kind of shit to keep the main
@@ -96,7 +94,7 @@ public class GCSniper implements Sniper {
                 .headers("Accept", "application/json", "Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         var response = client.send(request, HttpResponse.BodyHandlers.discarding());
-        if (!(response.statusCode() == 200))
+        if (response.statusCode() != 200)
             throw new GeneralSniperException("[GiftCodeRedemption] HTTP status code: " + response.statusCode());
         return false; // always returns false no matter what, can't exactly start calling the
                       // sendSecurityQuestions method since it's "abstract"
@@ -122,7 +120,7 @@ public class GCSniper implements Sniper {
         System.out.print("What name will you like to snipe: ");
         snipedUsername = scanner.nextLine().strip();
         if ((snipedUsername.length() < 3) || (snipedUsername.length() > 16)
-                || (!(snipedUsername.matches("[A-Za-z0-9_]+"))))
+                || (!snipedUsername.matches("[A-Za-z0-9_]+")))
             throw new GeneralSniperException("[GetUsernameChoice] You entered an invalid username.");
     }
 
@@ -133,14 +131,16 @@ public class GCSniper implements Sniper {
         var yaml = new Yaml();
         Map<String, Object> accountData = yaml.load(actual);
         spread = (int) accountData.get("spread");
+        if (spread < 0)
+            throw new GeneralSniperException("[ConfigParser] Spread cannot be lower than 0.");
         skinVariant = ((String) accountData.get("skinModel")).toLowerCase().strip();
-        isAutoOffset = (boolean) accountData.get("autoOffset");
+        boolean isAutoOffset = (boolean) accountData.get("autoOffset");
         isChangeSkin = (boolean) accountData.get("changeSkin");
         if (isChangeSkin)
             if (!((skinVariant.equals("slim")) || (skinVariant.equals("classic"))))
                 throw new GeneralSniperException("[ConfigParser] Invalid skin type.");
         skinPath = ((String) accountData.get("skinFileName")).strip();
-        if (!(isAutoOffset)) {
+        if (!isAutoOffset) {
             offset = (int) accountData.get("offset");
             System.out.println("Offset is set to " + offset + " ms.");
             return false;
@@ -170,7 +170,8 @@ public class GCSniper implements Sniper {
                                     System.out.println("[" + keyword + "] " + code + " @ " + accurateTime);
                                 });
                         completableFutures.add(snipe);
-                        Thread.sleep(spread);
+                        if (spread != 0)
+                            Thread.sleep(spread);
                     }
                     CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[0])).join();
                     if (isSuccessful.get()) {
@@ -186,7 +187,7 @@ public class GCSniper implements Sniper {
                                             "multipart/form-data;boundary=" + boundary)
                                     .POST(ofMimeMultipartData(data, boundary)).build();
                             var response = client.send(request, HttpResponse.BodyHandlers.discarding());
-                            if (!(response.statusCode() == 200))
+                            if (response.statusCode() != 200)
                                 throw new GeneralSniperException(
                                         "[SkinChanger] HTTP status code: " + response.statusCode());
                             System.out.println("Successfully changed skin!");
@@ -223,7 +224,7 @@ public class GCSniper implements Sniper {
         var uri = new URI("https://api.kqzz.me/api/namemc/droptime/" + snipedUsername);
         var request = HttpRequest.newBuilder().uri(uri).GET().build();
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        if (!(response.statusCode() == 200))
+        if (response.statusCode() != 200)
             throw new GeneralSniperException("[CheckNameAvailabilityTime] HTTP status code: " + response.statusCode());
         var body = response.body();
         var node = mapper.readTree(body);
@@ -254,7 +255,7 @@ public class GCSniper implements Sniper {
     }
 
     @Override
-    public void isNameChangeEligible() throws URISyntaxException, IOException, InterruptedException {
+    public void isNameChangeEligible() {
     }
 
     @Override
@@ -265,6 +266,7 @@ public class GCSniper implements Sniper {
         var request = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         client.send(request, HttpResponse.BodyHandlers.discarding());
+        int BEST_CASE_RESPONSE_DURATION = 100;
         offset = Math.toIntExact(Duration.between(beforeSend, Instant.now()).toMillis() - BEST_CASE_RESPONSE_DURATION);
         System.out.println("Offset is set to " + offset + " ms.");
     }
