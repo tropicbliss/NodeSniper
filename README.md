@@ -11,6 +11,7 @@ A Minecraft username sniper made in Java.
 - GC sniping
 - Spread (delay between asynchronous sniping requests)
 - Auto offset (never rely on this feature for reliable sniping, it should only be used to gauge the delay for first time snipers, adjust upon that delay for subsequent snipes)
+- Change skin (dunno whether it works, probably doesn't don't really care)
 
 ## Why is it called NodeSniper, when it is made in Java?
 
@@ -98,4 +99,4 @@ If you are inexperienced it's probably better to use MCsniperPY instead, especia
 
 ## Bug reporting
 
-Feel free to use the GitHub issues tab or DM me @chronicallyunfunny#1113 through MCsniperPY's Discord. This is a new sniper so there may be tons of bugs.
+Feel free to use the GitHub issues tab. This is a new sniper so there may be tons of bugs.
