@@ -29,9 +29,7 @@ public class GCSniper implements Sniper {
     private String snipedUsername = null;
     private int offset;
     private Instant dropTime;
-    private HttpRequest snipeRequest;
     private final AtomicBoolean isSuccessful = new AtomicBoolean(false);
-    private final int NO_OF_REQUESTS = 6;
     private final List<CompletableFuture<Void>> completableFutures = new ArrayList<>();
     private final ObjectMapper mapper = new ObjectMapper();
     private final Scanner scanner = new Scanner(System.in);
@@ -73,8 +71,7 @@ public class GCSniper implements Sniper {
     @Override
     public boolean isSecurityQuestionsNeeded() {
         System.out.print("Enter your gift code (press ENTER if you have already redeemed your gift code): ");
-        String input;
-        input = scanner.nextLine();
+        var input = scanner.nextLine();
         if (input.isEmpty())
             return false;
         giftCode = input.strip();
@@ -149,59 +146,7 @@ public class GCSniper implements Sniper {
     }
 
     @Override
-    public void execute() throws URISyntaxException {
-        var timer = new Timer();
-        TimerTask snipe = new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    for (var request = 1; request <= NO_OF_REQUESTS; request++) {
-                        var snipe = client.sendAsync(snipeRequest, HttpResponse.BodyHandlers.discarding())
-                                .thenApply(HttpResponse::statusCode).thenAccept(code -> {
-                                    var now = Instant.now();
-                                    var accurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-                                            .withZone(ZoneId.systemDefault());
-                                    var accurateTime = accurateDateFormat.format(now);
-                                    var keyword = "fail";
-                                    if (code == 200) {
-                                        isSuccessful.set(true);
-                                        keyword = "success";
-                                    }
-                                    System.out.println("[" + keyword + "] " + code + " @ " + accurateTime);
-                                });
-                        completableFutures.add(snipe);
-                        if (spread != 0)
-                            Thread.sleep(spread);
-                    }
-                    CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[0])).join();
-                    if (isSuccessful.get()) {
-                        System.out.println("You have successfully sniped the name " + snipedUsername + "!");
-                        if (isChangeSkin) {
-                            Map<Object, Object> data = new LinkedHashMap<>();
-                            data.put("variant", skinVariant);
-                            data.put("file", Path.of(skinPath));
-                            var boundary = new BigInteger(256, new Random()).toString();
-                            var uri = new URI("https://api.minecraftservices.com/minecraft/profile/skins");
-                            var request = HttpRequest.newBuilder().uri(uri)
-                                    .headers("Authorization", "Bearer " + authToken, "Content-Type",
-                                            "multipart/form-data;boundary=" + boundary)
-                                    .POST(ofMimeMultipartData(data, boundary)).build();
-                            var response = client.send(request, HttpResponse.BodyHandlers.discarding());
-                            if (response.statusCode() != 200)
-                                throw new GeneralSniperException(
-                                        "[SkinChanger] HTTP status code: " + response.statusCode());
-                            System.out.println("Successfully changed skin!");
-                        }
-                    }
-                    System.out.print("Press ENTER to quit: ");
-                    System.in.read();
-                    timer.cancel();
-                    System.exit(0);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        };
+    public void execute() throws URISyntaxException, InterruptedException, IOException {
         var now = Instant.now();
         var semiAccurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 .withZone(ZoneId.systemDefault());
@@ -209,14 +154,55 @@ public class GCSniper implements Sniper {
         var diffInTime = Duration.between(now, dropTime).toMinutes();
         System.out.println(
                 "Sniping " + snipedUsername + " in ~" + diffInTime + " minutes | sniping at " + niceDropTime + ".");
-        var offsetAdjustedTime = Date.from(dropTime.minusMillis(offset));
         var postJSON = "{\"profileName\":\"" + snipedUsername + "\"}";
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile");
-        snipeRequest = HttpRequest.newBuilder().uri(uri)
+        HttpRequest snipeRequest = HttpRequest.newBuilder().uri(uri)
                 .headers("Accept", "application/json", "Authorization", "Bearer " + authToken)
                 .POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
         System.out.println("Setup complete!");
-        timer.schedule(snipe, offsetAdjustedTime);
+        Thread.sleep(dropTime.toEpochMilli() - System.currentTimeMillis() - offset);
+        int NO_OF_REQUESTS = 6;
+        for (var request = 1; request <= NO_OF_REQUESTS; request++) {
+            var snipe = client.sendAsync(snipeRequest, HttpResponse.BodyHandlers.discarding())
+                    .thenApply(HttpResponse::statusCode).thenAccept(code -> {
+                        var reqTime = Instant.now();
+                        var accurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
+                                .withZone(ZoneId.systemDefault());
+                        var accurateTime = accurateDateFormat.format(reqTime);
+                        var keyword = "fail";
+                        if (code == 200) {
+                            isSuccessful.set(true);
+                            keyword = "success";
+                        }
+                        System.out.println("[" + keyword + "] " + code + " @ " + accurateTime);
+                    });
+            completableFutures.add(snipe);
+            if (spread != 0)
+                Thread.sleep(spread);
+        }
+        CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[0])).join();
+        if (isSuccessful.get()) {
+            System.out.println("You have successfully sniped the name " + snipedUsername + "!");
+            if (isChangeSkin) {
+                Map<Object, Object> data = new LinkedHashMap<>();
+                data.put("variant", skinVariant);
+                data.put("file", Path.of(skinPath));
+                var boundary = new BigInteger(256, new Random()).toString();
+                uri = new URI("https://api.minecraftservices.com/minecraft/profile/skins");
+                var request = HttpRequest.newBuilder().uri(uri)
+                        .headers("Authorization", "Bearer " + authToken, "Content-Type",
+                                "multipart/form-data;boundary=" + boundary)
+                        .POST(ofMimeMultipartData(data, boundary)).build();
+                var response = client.send(request, HttpResponse.BodyHandlers.discarding());
+                if (response.statusCode() != 200)
+                    throw new GeneralSniperException(
+                            "[SkinChanger] HTTP status code: " + response.statusCode());
+                System.out.println("Successfully changed skin!");
+            }
+        }
+        System.out.print("Press ENTER to quit: ");
+        scanner.nextLine();
+        // exits
     }
 
     @Override

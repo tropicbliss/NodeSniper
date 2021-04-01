@@ -20,7 +20,7 @@ public interface Sniper {
 
     boolean parseConfigFile() throws IOException;
 
-    void execute() throws URISyntaxException;
+    void execute() throws URISyntaxException, InterruptedException, IOException;
 
     void checkNameAvailabilityTime() throws URISyntaxException, IOException, InterruptedException;
 
