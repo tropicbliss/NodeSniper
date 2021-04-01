@@ -119,7 +119,8 @@ public class MSASniper implements Sniper {
         HttpRequest snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         System.out.println("Setup complete!");
-        Thread.sleep(dropTime.toEpochMilli() - System.currentTimeMillis() - offset);
+        dropTime = dropTime.minusMillis(offset);
+        Thread.sleep(dropTime.toEpochMilli() - System.currentTimeMillis());
         int NO_OF_REQUESTS = 2;
         for (var request = 1; request <= NO_OF_REQUESTS; request++) {
             var snipe = client.sendAsync(snipeRequest, HttpResponse.BodyHandlers.discarding())
