@@ -132,7 +132,7 @@ public class MojangSniper implements Sniper {
         var diffInTime = Duration.between(now, dropTime).toMinutes();
         System.out.println(
                 "Sniping " + snipedUsername + " in ~" + diffInTime + " minutes | sniping at " + niceDropTime + ".");
-        var authenticationTime = dropTime.minusSeconds(60);
+        var authenticationTime = dropTime.minusSeconds(60).minusMillis(offset);
         if (Instant.now().isBefore(authenticationTime)) {
             Thread.sleep(authenticationTime.toEpochMilli() - System.currentTimeMillis());
             authenticate();
