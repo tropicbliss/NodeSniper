@@ -152,8 +152,8 @@ public class MojangSniper implements Sniper {
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         System.out.println("Setup complete!");
         var lagTime = dropTime.minusSeconds(3).minusMillis(offset);
-        Thread.sleep(lagTime.toEpochMilli() - System.currentTimeMillis());
         var longDropTime = dropTime.minusMillis(offset).toEpochMilli();
+        Thread.sleep(lagTime.toEpochMilli() - System.currentTimeMillis());
         while ((System.currentTimeMillis()) < longDropTime)
             Thread.sleep(1);
         int NO_OF_REQUESTS = 2;
