@@ -119,8 +119,8 @@ public class MSASniper implements Sniper {
         HttpRequest snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         System.out.println("Setup complete!");
-        dropTime = dropTime.minusMillis(offset);
-        Thread.sleep(dropTime.toEpochMilli() - System.currentTimeMillis());
+        var intDropTime = dropTime.minusMillis(offset).toEpochMilli();
+        Thread.sleep(intDropTime - System.currentTimeMillis());
         int NO_OF_REQUESTS = 2;
         for (var request = 1; request <= NO_OF_REQUESTS; request++) {
             var snipe = client.sendAsync(snipeRequest, HttpResponse.BodyHandlers.discarding())
@@ -240,14 +240,16 @@ public class MSASniper implements Sniper {
 
     @Override
     public void autoOffsetCalculation() throws URISyntaxException, IOException, InterruptedException {
+        Instant beforeSend, afterSend;
         System.out.println("Calculating offset...");
-        var beforeSend = Instant.now();
+        beforeSend = Instant.now();
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
         var request = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         client.send(request, HttpResponse.BodyHandlers.discarding());
+        afterSend = Instant.now();
         int BEST_CASE_RESPONSE_DURATION = 100;
-        offset = Math.toIntExact(Duration.between(beforeSend, Instant.now()).toMillis() - BEST_CASE_RESPONSE_DURATION);
+        offset = Math.toIntExact(Duration.between(beforeSend, afterSend).toMillis() - BEST_CASE_RESPONSE_DURATION);
         System.out.println("Offset is set to " + offset + " ms.");
     }
 
