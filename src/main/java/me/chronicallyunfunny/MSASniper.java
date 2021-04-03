@@ -84,7 +84,7 @@ public class MSASniper implements Sniper {
                 throw new GeneralSniperException("[ConfigParser] Invalid skin type.");
         skinPath = ((String) accountData.get("skinFileName")).strip();
         if (!isAutoOffset) {
-            offset = (int) accountData.get("offset");
+            offset = (long) accountData.get("offset");
             System.out.println("Offset is set to " + offset + " ms.");
             return false;
         }
