@@ -123,7 +123,7 @@ public class MSASniper implements Sniper {
         HttpRequest snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         System.out.println("Setup complete!");
-        var lagTime = dropTime.minusSeconds(10).minusMillis(offset);
+        var lagTime = dropTime.minusSeconds(3).minusMillis(offset);
         Thread.sleep(lagTime.toEpochMilli() - System.currentTimeMillis());
         var longDropTime = dropTime.minusMillis(offset).toEpochMilli();
         while ((System.currentTimeMillis()) < longDropTime)
