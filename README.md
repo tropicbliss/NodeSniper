@@ -4,10 +4,6 @@
 
 A Minecraft username sniper made in Java.
 
-## Notice
-
-Thread.sleep() is not 100% accurate according to my findings. I might have to go for a while loop instead.
-
 ## Features
 
 - Mojang account sniping
@@ -88,7 +84,7 @@ skinFileName: The name of the skin file, with extensions of course.
 Navigate to the directory in which the sniper, account and config files are from your terminal. Again if you are not sure MCsniperPY documents a similar process right [here](https://github.com/MCsniperPY/MCsniperPY#installing-dependencies). After that type in the following:
 
 ```
-java -jar NodeSniper-2.5.jar
+java -jar NodeSniper-2.6.jar
 ```
 
 ## Packaging JAR file from source
