@@ -60,6 +60,7 @@ public class GCSniper implements Sniper {
         System.out.print(
                 "Sign in with your Microsoft account and copy the ID from the \"access_token\" field right here: ");
         authToken = scanner.nextLine().strip().replaceAll("[\"]", "");
+        System.out.println();
     }
 
     @Override
@@ -71,6 +72,7 @@ public class GCSniper implements Sniper {
     @Override
     public boolean isSecurityQuestionsNeeded() {
         System.out.print("Enter your gift code (press ENTER if you have already redeemed your gift code): ");
+        System.out.println();
         var input = scanner.nextLine();
         if (input.isEmpty())
             return false;
@@ -93,6 +95,8 @@ public class GCSniper implements Sniper {
         var response = client.send(request, HttpResponse.BodyHandlers.discarding());
         if (response.statusCode() != 200)
             throw new GeneralSniperException("[GiftCodeRedemption] HTTP status code: " + response.statusCode());
+        System.out.println("Signed into your account successfully.");
+        System.out.println();
         return false; // always returns false no matter what, can't exactly start calling the
                       // sendSecurityQuestions method since it's "abstract"
     }
@@ -115,6 +119,7 @@ public class GCSniper implements Sniper {
     @Override
     public void getUsernameChoice() {
         System.out.print("What name will you like to snipe: ");
+        System.out.println();
         snipedUsername = scanner.nextLine().strip();
         if ((snipedUsername.length() < 3) || (snipedUsername.length() > 16)
                 || (!snipedUsername.matches("[A-Za-z0-9_]+")))
@@ -140,6 +145,7 @@ public class GCSniper implements Sniper {
         if (!isAutoOffset) {
             offset = (long) accountData.get("offset");
             System.out.println("Offset is set to " + offset + " ms.");
+            System.out.println();
             return false;
         }
         return true;
@@ -154,12 +160,14 @@ public class GCSniper implements Sniper {
         var diffInTime = Duration.between(now, dropTime).toMinutes();
         System.out.println(
                 "Sniping " + snipedUsername + " in ~" + diffInTime + " minutes | sniping at " + niceDropTime + ".");
+        System.out.println();
         var postJSON = "{\"profileName\":\"" + snipedUsername + "\"}";
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile");
         HttpRequest snipeRequest = HttpRequest.newBuilder().uri(uri)
                 .headers("Accept", "application/json", "Authorization", "Bearer " + authToken)
                 .POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
         System.out.println("Setup complete!");
+        System.out.println();
         var intDropTime = dropTime.minusMillis(offset).toEpochMilli();
         Thread.sleep(intDropTime - System.currentTimeMillis());
         int NO_OF_REQUESTS = 6;
@@ -183,7 +191,9 @@ public class GCSniper implements Sniper {
         }
         CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[0])).join();
         if (isSuccessful.get()) {
+            System.out.println();
             System.out.println("You have successfully sniped the name " + snipedUsername + "!");
+            System.out.println();
             if (isChangeSkin) {
                 Map<Object, Object> data = new LinkedHashMap<>();
                 data.put("variant", skinVariant);
@@ -199,6 +209,7 @@ public class GCSniper implements Sniper {
                     throw new GeneralSniperException(
                             "[SkinChanger] HTTP status code: " + response.statusCode());
                 System.out.println("Successfully changed skin!");
+                System.out.println();
             }
         }
         System.out.print("Press ENTER to quit: ");
@@ -258,6 +269,7 @@ public class GCSniper implements Sniper {
         int SERVER_RESPONSE_DURATION = 100;
         offset = afterSend - beforeSend - SERVER_RESPONSE_DURATION;
         System.out.println("Offset is set to " + offset + " ms.");
+        System.out.println();
     }
 
     // Taken from golb.hplar.ch
