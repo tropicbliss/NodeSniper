@@ -108,13 +108,17 @@ public class MSASniper implements Sniper {
 
     @Override
     public void execute() throws URISyntaxException, InterruptedException, IOException {
-        var now = Instant.now();
         var semiAccurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 .withZone(ZoneId.systemDefault());
         var niceDropTime = semiAccurateDateFormat.format(dropTime);
-        var diffInTime = Duration.between(now, dropTime).toMinutes();
-        System.out.println(
-                "Sniping " + snipedUsername + " in ~" + diffInTime + " minutes | sniping at " + niceDropTime + ".");
+        var now = Instant.now();
+        var duration = Duration.between(now, dropTime).toMinutes();
+        if (duration == 0) {
+            duration = Duration.between(now, dropTime).toSeconds();
+            System.out.println("Sniping " + snipedUsername + " in ~" + duration + " seconds | sniping at " + niceDropTime + ".");
+        }
+        else
+            System.out.println("Sniping " + snipedUsername + " in ~" + duration + " minutes | sniping at " + niceDropTime + ".");
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
         HttpRequest snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
