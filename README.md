@@ -4,6 +4,10 @@
 
 A Minecraft username sniper made in Java.
 
+## Notice
+
+Thread.sleep() is not 100% accurate according to my findings. I might have to go for a while loop instead.
+
 ## Features
 
 - Mojang account sniping
