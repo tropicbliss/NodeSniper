@@ -57,7 +57,6 @@ public class MSASniper implements Sniper {
     @Override
     public void getUsernameChoice() {
         System.out.print("What name will you like to snipe: ");
-        System.out.println();
         snipedUsername = scanner.nextLine().strip();
         if ((snipedUsername.length() < 3) || (snipedUsername.length() > 16)
                 || (!snipedUsername.matches("[A-Za-z0-9_]+")))
@@ -87,7 +86,6 @@ public class MSASniper implements Sniper {
         if (!isAutoOffset) {
             offset = (long) accountData.get("offset");
             System.out.println("Offset is set to " + offset + " ms.");
-            System.out.println();
             return false;
         }
         return true;
@@ -117,12 +115,10 @@ public class MSASniper implements Sniper {
         var diffInTime = Duration.between(now, dropTime).toMinutes();
         System.out.println(
                 "Sniping " + snipedUsername + " in ~" + diffInTime + " minutes | sniping at " + niceDropTime + ".");
-        System.out.println();
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
         HttpRequest snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         System.out.println("Setup complete!");
-        System.out.println();
         var intDropTime = dropTime.minusMillis(offset).toEpochMilli();
         Thread.sleep(intDropTime - System.currentTimeMillis());
         int NO_OF_REQUESTS = 2;
@@ -146,9 +142,7 @@ public class MSASniper implements Sniper {
         }
         CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[0])).join();
         if (isSuccessful.get()) {
-            System.out.println();
             System.out.println("You have successfully sniped the name " + snipedUsername + "!");
-            System.out.println();
             if (isChangeSkin) {
                 Map<Object, Object> data = new LinkedHashMap<>();
                 data.put("variant", skinVariant);
@@ -164,7 +158,6 @@ public class MSASniper implements Sniper {
                     throw new GeneralSniperException(
                             "[SkinChanger] HTTP status code: " + response.statusCode());
                 System.out.println("Successfully changed skin!");
-                System.out.println();
             }
         }
         System.out.print("Press ENTER to quit: ");
@@ -180,8 +173,6 @@ public class MSASniper implements Sniper {
         if (response.statusCode() != 200)
             throw new GeneralSniperException(
                     "[NameChangeEligibilityChecker] HTTP status code: " + response.statusCode());
-        System.out.println("Signed into your account successfully.");
-        System.out.println();
         var body = response.body();
         var node = mapper.readTree(body);
         boolean isAllowed = node.get("nameChangeAllowed").asBoolean();
@@ -259,7 +250,6 @@ public class MSASniper implements Sniper {
         int SERVER_RESPONSE_DURATION = 100;
         offset = afterSend - beforeSend - SERVER_RESPONSE_DURATION;
         System.out.println("Offset is set to " + offset + " ms.");
-        System.out.println();
     }
 
     // Taken from golb.hplar.ch
