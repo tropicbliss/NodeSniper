@@ -31,7 +31,7 @@ public class MojangSniper implements Sniper {
     private String authToken = null;
     private String snipedUsername = null;
     private final String[] questionIDArray = new String[3];
-    private int offset;
+    private long offset;
     private Instant dropTime;
     private final AtomicBoolean isSuccessful = new AtomicBoolean(false);
     private final List<CompletableFuture<Void>> completableFutures = new ArrayList<>();
@@ -297,16 +297,16 @@ public class MojangSniper implements Sniper {
 
     @Override
     public void autoOffsetCalculation() throws URISyntaxException, IOException, InterruptedException {
-        Instant beforeSend, afterSend;
+        long beforeSend, afterSend;
         System.out.println("Calculating offset...");
-        beforeSend = Instant.now();
+        beforeSend = System.currentTimeMillis();
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
         var request = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         client.send(request, HttpResponse.BodyHandlers.discarding());
-        afterSend = Instant.now();
-        int BEST_CASE_RESPONSE_DURATION = 100;
-        offset = Math.toIntExact(Duration.between(beforeSend, afterSend).toMillis() - BEST_CASE_RESPONSE_DURATION);
+        afterSend = System.currentTimeMillis();
+        int SERVER_RESPONSE_DURATION = 100;
+        offset = afterSend - beforeSend - SERVER_RESPONSE_DURATION;
         System.out.println("Offset is set to " + offset + " ms.");
     }
 
