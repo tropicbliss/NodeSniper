@@ -136,9 +136,9 @@ public class MojangSniper implements Sniper {
         }
         else
             System.out.println("Sniping " + snipedUsername + " in ~" + duration + " minutes | sniping at " + niceDropTime + ".");
-        var authenticationTime = dropTime.minusSeconds(60).minusMillis(offset);
-        if (Instant.now().isBefore(authenticationTime)) {
-            Thread.sleep(authenticationTime.toEpochMilli() - System.currentTimeMillis());
+        var longAuthenticationTime = dropTime.minusSeconds(60).minusMillis(offset).toEpochMilli();
+        if (System.currentTimeMillis() < longAuthenticationTime) {
+            Thread.sleep(longAuthenticationTime - System.currentTimeMillis());
             authenticate();
             if (isSecurityQuestionsNeeded())
                 if (getSecurityQuestionsID())
