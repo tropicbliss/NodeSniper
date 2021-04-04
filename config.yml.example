@@ -1,6 +1,5 @@
 # Enter your delay in milliseconds.
 # It defaults to 0 ms if the "delay" field is empty.
-# The delay field only accepts whole numbers or the program will crash.
 
 offset: 0
 autoOffset: false
