@@ -139,7 +139,7 @@ public class GCSniper implements Sniper {
                 throw new GeneralSniperException("[ConfigParser] Invalid skin type.");
         skinPath = ((String) accountData.get("skinFileName")).strip();
         if (!isAutoOffset) {
-            offset = (long) accountData.get("offset");
+            offset = ((Number) accountData.get("offset")).longValue();
             System.out.println("Offset is set to " + offset + " ms.");
             return false;
         }
