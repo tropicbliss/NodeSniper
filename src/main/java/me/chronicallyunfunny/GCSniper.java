@@ -165,10 +165,10 @@ public class GCSniper implements Sniper {
                 .headers("Accept", "application/json", "Authorization", "Bearer " + authToken)
                 .POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
         System.out.println("Setup complete!");
-        var lagTime = dropTime.minusSeconds(3).minusMillis(offset);
+        var longLagTime = dropTime.minusSeconds(3).minusMillis(offset).toEpochMilli();
         var longDropTime = dropTime.minusMillis(offset).toEpochMilli();
-        if (Instant.now().isBefore(lagTime))
-            Thread.sleep(lagTime.toEpochMilli() - System.currentTimeMillis());
+        if (System.currentTimeMillis() < longLagTime)
+            Thread.sleep(longLagTime - System.currentTimeMillis());
         while ((System.currentTimeMillis()) < longDropTime)
             Thread.sleep(1);
         int NO_OF_REQUESTS = 6;
