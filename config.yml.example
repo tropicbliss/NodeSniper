@@ -1,5 +1,4 @@
-# Enter your delay in milliseconds.
-# It defaults to 0 ms if the "delay" field is empty.
+# Enter your offset in milliseconds.
 
 offset: 0
 autoOffset: false
