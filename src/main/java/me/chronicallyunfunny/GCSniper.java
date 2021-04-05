@@ -169,14 +169,14 @@ public class GCSniper implements Sniper {
                 .headers("Accept", "application/json", "Authorization", "Bearer " + authToken)
                 .POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
         System.out.println("Setup complete!");
-        var longLagTime = dropTime.minusSeconds(3).minusMillis(offset).toEpochMilli();
         var longDropTime = dropTime.minusMillis(offset).toEpochMilli();
+        var longLagTime = longDropTime - 3_000L;
         if (System.currentTimeMillis() < longLagTime)
             Thread.sleep(longLagTime - System.currentTimeMillis());
         while ((System.currentTimeMillis()) < longDropTime)
             Thread.sleep(1);
         int NO_OF_REQUESTS = 6;
-        for (var request = 1; request <= NO_OF_REQUESTS; request++) {
+        for (var request = 1; request < NO_OF_REQUESTS; request++) {
             var snipe = client.sendAsync(snipeRequest, HttpResponse.BodyHandlers.discarding())
                     .thenApply(HttpResponse::statusCode).thenAccept(code -> {
                         var reqTime = Instant.now();
@@ -194,6 +194,20 @@ public class GCSniper implements Sniper {
             if (spread != 0)
                 Thread.sleep(spread);
         }
+        if (spread != 0)
+            Thread.sleep(spread);
+        // I don't want to spawn a new thread when the main thread is free, so hardcoding it in.
+        var lastResponse = client.send(snipeRequest, HttpResponse.BodyHandlers.discarding());
+        var reqTime = Instant.now();
+        var accurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
+                .withZone(ZoneId.systemDefault());
+        var accurateTime = accurateDateFormat.format(reqTime);
+        var keyword = "fail";
+        if (lastResponse.statusCode() == 200) {
+            isSuccessful.set(true);
+            keyword = "success";
+        }
+        System.out.println("[" + keyword + "] " + lastResponse.statusCode() + " @ " + accurateTime);
         CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[0])).join();
         if (isSuccessful.get()) {
             System.out.println("You have successfully sniped the name " + snipedUsername + "!");

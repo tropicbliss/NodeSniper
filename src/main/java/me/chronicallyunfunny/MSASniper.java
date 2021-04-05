@@ -30,7 +30,6 @@ public class MSASniper implements Sniper {
     private long offset;
     private Instant dropTime;
     private final AtomicBoolean isSuccessful = new AtomicBoolean(false);
-    private final List<CompletableFuture<Void>> completableFutures = new ArrayList<>();
     private final ObjectMapper mapper = new ObjectMapper();
     private final Scanner scanner = new Scanner(System.in);
     private Instant authTime;
@@ -127,32 +126,40 @@ public class MSASniper implements Sniper {
         HttpRequest snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         System.out.println("Setup complete!");
-        var longLagTime = dropTime.minusSeconds(3).minusMillis(offset).toEpochMilli();
         var longDropTime = dropTime.minusMillis(offset).toEpochMilli();
+        var longLagTime = longDropTime - 3_000L;
         if (System.currentTimeMillis() < longLagTime)
             Thread.sleep(longLagTime - System.currentTimeMillis());
         while ((System.currentTimeMillis()) < longDropTime)
             Thread.sleep(1);
-        int NO_OF_REQUESTS = 2;
-        for (var request = 1; request <= NO_OF_REQUESTS; request++) {
-            var snipe = client.sendAsync(snipeRequest, HttpResponse.BodyHandlers.discarding())
-                    .thenApply(HttpResponse::statusCode).thenAccept(code -> {
-                        var reqTime = Instant.now();
-                        var accurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-                                .withZone(ZoneId.systemDefault());
-                        var accurateTime = accurateDateFormat.format(reqTime);
-                        var keyword = "fail";
-                        if (code == 200) {
-                            isSuccessful.set(true);
-                            keyword = "success";
-                        }
-                        System.out.println("[" + keyword + "] " + code + " @ " + accurateTime);
-                    });
-            completableFutures.add(snipe);
-            if (spread != 0)
-                Thread.sleep(spread);
+        var firstResponse = client.sendAsync(snipeRequest, HttpResponse.BodyHandlers.discarding())
+                .thenApply(HttpResponse::statusCode).thenAccept(code -> {
+                    var reqTime = Instant.now();
+                    var accurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
+                            .withZone(ZoneId.systemDefault());
+                    var accurateTime = accurateDateFormat.format(reqTime);
+                    var keyword = "fail";
+                    if (code == 200) {
+                        isSuccessful.set(true);
+                        keyword = "success";
+                    }
+                    System.out.println("[" + keyword + "] " + code + " @ " + accurateTime);
+                });
+        if (spread != 0)
+            Thread.sleep(spread);
+        // I don't want to spawn a new thread when the main thread is free, so hardcoding it in.
+        var secondResponse = client.send(snipeRequest, HttpResponse.BodyHandlers.discarding());
+        var reqTime = Instant.now();
+        var accurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
+                .withZone(ZoneId.systemDefault());
+        var accurateTime = accurateDateFormat.format(reqTime);
+        var keyword = "fail";
+        if (secondResponse.statusCode() == 200) {
+            isSuccessful.set(true);
+            keyword = "success";
         }
-        CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[0])).join();
+        System.out.println("[" + keyword + "] " + secondResponse.statusCode() + " @ " + accurateTime);
+        CompletableFuture.allOf(firstResponse).join();
         if (isSuccessful.get()) {
             System.out.println("You have successfully sniped the name " + snipedUsername + "!");
             if (isChangeSkin) {
