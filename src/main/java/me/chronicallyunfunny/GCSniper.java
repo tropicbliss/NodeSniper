@@ -152,6 +152,7 @@ public class GCSniper implements Sniper {
 
     @Override
     public void execute() throws URISyntaxException, InterruptedException, IOException {
+        int NO_OF_REQUESTS = 6;
         var semiAccurateDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 .withZone(ZoneId.systemDefault());
         var niceDropTime = semiAccurateDateFormat.format(dropTime);
@@ -175,7 +176,6 @@ public class GCSniper implements Sniper {
             Thread.sleep(longLagTime - System.currentTimeMillis());
         while ((System.currentTimeMillis()) < longDropTime)
             Thread.sleep(1);
-        int NO_OF_REQUESTS = 6;
         for (var request = 1; request < NO_OF_REQUESTS; request++) {
             var snipe = client.sendAsync(snipeRequest, HttpResponse.BodyHandlers.discarding())
                     .thenApply(HttpResponse::statusCode).thenAccept(code -> {
