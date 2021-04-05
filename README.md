@@ -4,6 +4,10 @@
 
 A Minecraft username sniper made in Java.
 
+## Upcoming features
+
+- Sockets 🤑
+
 ## Features
 
 - Mojang account sniping
