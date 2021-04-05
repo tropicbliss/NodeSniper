@@ -92,6 +92,8 @@ public class MojangSniper implements Sniper {
         spread = (int) accountData.get("spread");
         if (spread < 0)
             throw new GeneralSniperException("[ConfigParser] Spread cannot be lower than 0.");
+        if (spread > 0)
+            System.out.println("Spread is set to " + spread + " ms.");
         skinVariant = ((String) accountData.get("skinModel")).toLowerCase().strip();
         boolean isAutoOffset = (boolean) accountData.get("autoOffset");
         isChangeSkin = (boolean) accountData.get("changeSkin");
