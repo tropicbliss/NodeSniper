@@ -8,10 +8,6 @@ A Minecraft username sniper made in Java.
 
 This sniper will not be actively developed anymore. Feel free to fork it. Still works at the time of writing btw.
 
-## To-do
-
-- Rewrite in OkHTTP
-
 ## Features
 
 - Mojang account sniping
