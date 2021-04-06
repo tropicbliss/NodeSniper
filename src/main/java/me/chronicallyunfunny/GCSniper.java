@@ -168,7 +168,7 @@ public class GCSniper implements Sniper {
             System.out.println("Sniping " + snipedUsername + " in ~" + duration + " minutes | sniping at " + niceDropTime + ".");
         var postJSON = "{\"profileName\":\"" + snipedUsername + "\"}";
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile");
-        HttpRequest snipeRequest = HttpRequest.newBuilder().uri(uri)
+        var snipeRequest = HttpRequest.newBuilder().uri(uri)
                 .headers("Accept", "application/json", "Authorization", "Bearer " + authToken)
                 .POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
         System.out.println("Setup complete!");

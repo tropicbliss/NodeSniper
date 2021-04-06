@@ -153,7 +153,7 @@ public class MojangSniper implements Sniper {
         }
         System.out.println("Signed in to " + username + ".");
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
-        HttpRequest snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
+        var snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         System.out.println("Setup complete!");
         var longDropTime = dropTime.minusMillis(offset).toEpochMilli();
