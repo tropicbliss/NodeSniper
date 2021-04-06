@@ -4,6 +4,10 @@
 
 A Minecraft username sniper made in Java.
 
+## To-do
+
+- Rewrite in OkHTTP
+
 ## Features
 
 - Mojang account sniping
