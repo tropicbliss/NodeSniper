@@ -5,6 +5,7 @@ import kong.unirest.Unirest;
 import org.yaml.snakeyaml.Yaml;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -167,7 +168,7 @@ public class MSASniper implements Sniper {
                 var response = Unirest
                         .post("https://api.minecraftservices.com/minecraft/profile/skins")
                         .header("Authorization", "Bearer " + authToken).field("variant", skinVariant)
-                        .field("file", Path.of(skinPath).toFile()).asEmpty();
+                        .field("file", new File(skinPath)).asEmpty();
                 var code = response.getStatus();
                 if (code != 200)
                     throw new GeneralSniperException(
