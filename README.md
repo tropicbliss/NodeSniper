@@ -34,6 +34,7 @@ This sniper was made because I just wanted to make a sniper for fun. It is also 
 - [MCsniperPY](https://github.com/MCsniperPY/MCsniperPY) for referencing the APIs used.
 - [This](https://mojang-api-docs.netlify.app/) Mojang API documentation for the reference.
 - [Kqzz's MC-API](https://kqzz.github.io/MC-API/#/)
+- [MSAuth Server](https://github.com/MCGoSnipe/api-endpoints)
 
 ### Dependencies used:
 
