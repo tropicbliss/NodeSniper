@@ -39,7 +39,7 @@ This sniper was made because I just wanted to make a sniper for fun. It is also 
 
 - [SnakeYAML](https://mvnrepository.com/artifact/org.yaml/snakeyaml)
 - [Jackson](https://github.com/FasterXML/jackson)
-- [Unirest](https://kong.github.io/unirest-java) (Only for sending HTTP multipart request)
+- [Unirest](https://kong.github.io/unirest-java) (Only for sending HTTP multipart requests)
 
 ## Setup
 
