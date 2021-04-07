@@ -1,8 +1,10 @@
-# NodeSniper (v2.6.1)
+# NodeSniper
 
 A Minecraft username sniper made in Java.
 
 <img src="https://img.shields.io/badge/JDK-11-orange"> [![CodeFactor](https://www.codefactor.io/repository/github/chronicallyunfunny/nodesniper/badge/main)](https://www.codefactor.io/repository/github/chronicallyunfunny/nodesniper/overview/main) [![Java CI with Maven](https://github.com/chronicallyunfunny/NodeSniper/actions/workflows/maven.yml/badge.svg)](https://github.com/chronicallyunfunny/NodeSniper/actions/workflows/maven.yml)
+
+Version: 2.6.1
 
 ## Note
 
