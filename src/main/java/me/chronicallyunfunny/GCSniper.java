@@ -1,30 +1,31 @@
 package me.chronicallyunfunny;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kong.unirest.Unirest;
 import org.yaml.snakeyaml.Yaml;
 
 import java.awt.*;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GCSniper implements Sniper {
-    private final HttpClient client = HttpClient.newHttpClient();
+    private final HttpClient client = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
     private String authToken = null;
     private String snipedUsername = null;
     private long offset;
@@ -214,19 +215,14 @@ public class GCSniper implements Sniper {
         if (isSuccessful.get()) {
             System.out.println("You have successfully sniped the name " + snipedUsername + "!");
             if (isChangeSkin) {
-                Map<Object, Object> data = new LinkedHashMap<>();
-                data.put("variant", skinVariant);
-                data.put("file", Path.of(skinPath));
-                var boundary = new BigInteger(256, new Random()).toString();
-                uri = new URI("https://api.minecraftservices.com/minecraft/profile/skins");
-                var request = HttpRequest.newBuilder().uri(uri)
-                        .headers("Authorization", "Bearer " + authToken, "Content-Type",
-                                "multipart/form-data;boundary=" + boundary)
-                        .POST(ofMimeMultipartData(data, boundary)).build();
-                var response = client.send(request, HttpResponse.BodyHandlers.discarding());
-                if (response.statusCode() != 200)
+                var response = Unirest
+                        .post("https://api.minecraftservices.com/minecraft/profile/skins")
+                        .header("Authorization", "Bearer " + authToken).field("variant", skinVariant)
+                        .field("file", Path.of(skinPath).toFile()).asEmpty();
+                var code = response.getStatus();
+                if (code != 200)
                     throw new GeneralSniperException(
-                            "[SkinChanger] HTTP status code: " + response.statusCode());
+                            "[SkinChanger] HTTP status code: " + code);
                 System.out.println("Successfully changed skin!");
             }
         }
@@ -287,29 +283,5 @@ public class GCSniper implements Sniper {
         int SERVER_RESPONSE_DURATION = 100;
         offset = afterSend - beforeSend - SERVER_RESPONSE_DURATION;
         System.out.println("Offset is set to " + offset + " ms.");
-    }
-
-    // Taken from golb.hplar.ch
-    // Typical Java being Java or maybe I'm a little too used to batteries included
-    private HttpRequest.BodyPublisher ofMimeMultipartData(Map<Object, Object> data, String boundary)
-            throws IOException {
-        List<byte[]> byteArrays = new ArrayList<>();
-        byte[] separator = ("--" + boundary + "\r\nContent-Disposition: form-data; name=")
-                .getBytes(StandardCharsets.UTF_8);
-        for (Map.Entry<Object, Object> entry : data.entrySet()) {
-            byteArrays.add(separator);
-            if (entry.getValue() instanceof Path) {
-                var path = (Path) entry.getValue();
-                String mimeType = Files.probeContentType(path);
-                byteArrays.add(("\"" + entry.getKey() + "\"; filename=\"" + path.getFileName() + "\"\r\nContent-Type: "
-                        + mimeType + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
-                byteArrays.add(Files.readAllBytes(path));
-                byteArrays.add("\r\n".getBytes(StandardCharsets.UTF_8));
-            } else
-                byteArrays.add(("\"" + entry.getKey() + "\"\r\n\r\n" + entry.getValue() + "\r\n")
-                        .getBytes(StandardCharsets.UTF_8));
-        }
-        byteArrays.add(("--" + boundary + "--").getBytes(StandardCharsets.UTF_8));
-        return HttpRequest.BodyPublishers.ofByteArrays(byteArrays);
     }
 }
