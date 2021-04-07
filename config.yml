@@ -6,5 +6,5 @@ spread: 0
 microsoftAuth: false
 GCSnipe: false
 changeSkin: false
-skinModel: slim
-skinFileName: example.png
+skinModel: "slim"
+skinFileName: "example.png"
