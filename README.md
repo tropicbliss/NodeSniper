@@ -93,7 +93,7 @@ Navigate to the directory in which the sniper, account and config files are from
 java -jar NodeSniper-2.6.1.jar
 ```
 
-or
+or if you are using a Mojang account
 
 ```
 java -jar NodeSniper-2.6.1.jar <username>
