@@ -93,6 +93,12 @@ Navigate to the directory in which the sniper, account and config files are from
 java -jar NodeSniper-2.6.1.jar
 ```
 
+or
+
+```
+java -jar NodeSniper-2.6.1.jar <username>
+```
+
 ## Packaging JAR file from source
 
 ```
