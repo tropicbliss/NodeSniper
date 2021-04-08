@@ -41,10 +41,9 @@ public class GCSniper implements Sniper {
     private String skinVariant;
     private boolean isChangeSkin;
     private String skinPath;
-    private final boolean isRedeemPrompt;
+    private boolean isRedeemPrompt = false;
 
-    public GCSniper(boolean isRedeemPrompt) {
-        this.isRedeemPrompt = isRedeemPrompt;
+    public GCSniper() {
     }
 
     public GCSniper(boolean isRedeemPrompt, String name) {
