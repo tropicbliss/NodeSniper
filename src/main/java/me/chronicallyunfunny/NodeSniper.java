@@ -9,14 +9,10 @@ import java.util.Map;
 
 public class NodeSniper {
     public static void main(String[] args) {
-        var isRedeem = true;
-        if (args.length > 1)
-            if (args[1].equals("-r"))
-                isRedeem = false;
         try {
             Sniper sniper;
             if (args.length != 0)
-                sniper = sniperImplChooser(isRedeem, args[0]);
+                sniper = sniperImplChooser(args[0]);
             else
                 sniper = sniperImplChooser();
             sniper.printSplashScreen();
@@ -26,7 +22,7 @@ public class NodeSniper {
                 if (sniper.getSecurityQuestionsID())
                     sniper.sendSecurityQuestions();
             sniper.isNameChangeEligible();
-            if (args[0] == null)
+            if (args.length == 0)
                 sniper.getUsernameChoice();
             sniper.isNameAvailable();
             sniper.checkNameAvailabilityTime();
@@ -58,22 +54,18 @@ public class NodeSniper {
         }
     }
 
-    public static Sniper sniperImplChooser(boolean isRedeem, String name) throws IOException {
+    public static Sniper sniperImplChooser(String name) throws IOException {
         var fileName = Path.of("config.yml");
         var actual = Files.readString(fileName);
         var yaml = new Yaml();
         Map<String, Object> accountData = yaml.load(actual);
         if (!(boolean) (accountData.get("microsoftAuth"))) {
             if ((boolean) (accountData.get("GCSnipe"))) {
-                System.out.println(
-                        "\"microsoftAuth\" is set to false yet \"GCSnipe\" is set to true. Defaulting to gift code sniping instead.");
-                return new GCSniper(isRedeem, name);
+                throw new GeneralSniperException("[SniperImplChooser] Authentication of Microsoft accounts cannot be automated.");
             }
             return new MojangSniper(name);
         } else {
-            if ((boolean) (accountData.get("GCSnipe")))
-                return new GCSniper(isRedeem, name);
-            return new MSASniper(name);
+            throw new GeneralSniperException("[SniperImplChooser] Authentication of Microsoft accounts cannot be automated.");
         }
     }
 }

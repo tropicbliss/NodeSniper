@@ -41,15 +41,6 @@ public class GCSniper implements Sniper {
     private String skinVariant;
     private boolean isChangeSkin;
     private String skinPath;
-    private boolean isRedeemPrompt = false;
-
-    public GCSniper() {
-    }
-
-    public GCSniper(boolean isRedeemPrompt, String name) {
-        snipedUsername = name;
-        this.isRedeemPrompt = isRedeemPrompt;
-    }
 
     @Override
     public void authenticate() throws URISyntaxException, IOException, InterruptedException {
@@ -81,8 +72,6 @@ public class GCSniper implements Sniper {
     // is not meant to GCSnipe)
     @Override
     public boolean isSecurityQuestionsNeeded() {
-        if (!isRedeemPrompt)
-            return false;
         System.out.print("Enter your gift code (press ENTER if you have already redeemed your gift code): ");
         var input = scanner.nextLine();
         if (input.isEmpty())

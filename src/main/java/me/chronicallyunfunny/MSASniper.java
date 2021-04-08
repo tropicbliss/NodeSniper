@@ -38,13 +38,6 @@ public class MSASniper implements Sniper {
     private boolean isChangeSkin;
     private String skinPath;
 
-    public MSASniper() {
-    }
-
-    public MSASniper(String name) {
-        snipedUsername = name;
-    }
-
     @Override
     public void printSplashScreen() {
         System.out.println("    _   __          __    _____       _                ");
