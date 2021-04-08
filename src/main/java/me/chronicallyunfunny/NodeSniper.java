@@ -61,11 +61,11 @@ public class NodeSniper {
         Map<String, Object> accountData = yaml.load(actual);
         if (!(boolean) (accountData.get("microsoftAuth"))) {
             if ((boolean) (accountData.get("GCSnipe"))) {
-                throw new GeneralSniperException("[SniperImplChooser] Authentication of Microsoft accounts cannot be automated.");
+                throw new GeneralSniperException("[SniperImplChooser] You cannot provide a username as an argument if you are using a Microsoft account.");
             }
             return new MojangSniper(name);
         } else {
-            throw new GeneralSniperException("[SniperImplChooser] Authentication of Microsoft accounts cannot be automated.");
+            throw new GeneralSniperException("[SniperImplChooser] You cannot provide a username as an argument if you are using a Microsoft account.");
         }
     }
 }
