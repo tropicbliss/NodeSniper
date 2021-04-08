@@ -42,6 +42,13 @@ public class GCSniper implements Sniper {
     private boolean isChangeSkin;
     private String skinPath;
 
+    public GCSniper() {
+    }
+
+    public GCSniper(String name) {
+        snipedUsername = name;
+    }
+
     @Override
     public void authenticate() throws URISyntaxException, IOException, InterruptedException {
         System.out.println("Opening browser...");

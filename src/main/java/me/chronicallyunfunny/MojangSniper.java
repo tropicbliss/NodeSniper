@@ -42,6 +42,13 @@ public class MojangSniper implements Sniper {
     private String skinPath;
     private final Scanner scanner = new Scanner(System.in);
 
+    public MojangSniper() {
+    }
+
+    public MojangSniper(String name) {
+        snipedUsername = name;
+    }
+
     @Override
     public void printSplashScreen() {
         System.out.println("    _   __          __    _____       _                ");
