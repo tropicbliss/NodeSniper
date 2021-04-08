@@ -99,7 +99,7 @@ or
 java -jar NodeSniper-2.6.1.jar <username>
 ```
 
-Use the `-r` flag if you want to skip the prompt of gift code redemption.
+Use the `-r` flag if you want to skip the prompt of gift code redemption. You can only use this if you are using it in conjunction with the username argument.
 
 ## Packaging JAR file from source
 
