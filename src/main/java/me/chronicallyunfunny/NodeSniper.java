@@ -5,16 +5,20 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Map;
 
 public class NodeSniper {
     public static void main(String[] args) {
+        var isRedeem = true;
+        if (Arrays.asList(args).contains("-r"))
+            isRedeem = false;
         try {
             Sniper sniper;
             if (args[0] != null)
-                sniper = sniperImplChooser(args[0]);
+                sniper = sniperImplChooser(isRedeem, args[0]);
             else
-                sniper = sniperImplChooser();
+                sniper = sniperImplChooser(isRedeem);
             sniper.printSplashScreen();
             sniper.parseAccountFile();
             sniper.authenticate();
@@ -35,7 +39,7 @@ public class NodeSniper {
         }
     }
 
-    public static Sniper sniperImplChooser() throws IOException {
+    public static Sniper sniperImplChooser(boolean isRedeem) throws IOException {
         var fileName = Path.of("config.yml");
         var actual = Files.readString(fileName);
         var yaml = new Yaml();
@@ -44,17 +48,17 @@ public class NodeSniper {
             if ((boolean) (accountData.get("GCSnipe"))) {
                 System.out.println(
                         "\"microsoftAuth\" is set to false yet \"GCSnipe\" is set to true. Defaulting to gift code sniping instead.");
-                return new GCSniper();
+                return new GCSniper(isRedeem);
             }
             return new MojangSniper();
         } else {
             if ((boolean) (accountData.get("GCSnipe")))
-                return new GCSniper();
+                return new GCSniper(isRedeem);
             return new MSASniper();
         }
     }
 
-    public static Sniper sniperImplChooser(String name) throws IOException {
+    public static Sniper sniperImplChooser(boolean isRedeem, String name) throws IOException {
         var fileName = Path.of("config.yml");
         var actual = Files.readString(fileName);
         var yaml = new Yaml();
@@ -63,12 +67,12 @@ public class NodeSniper {
             if ((boolean) (accountData.get("GCSnipe"))) {
                 System.out.println(
                         "\"microsoftAuth\" is set to false yet \"GCSnipe\" is set to true. Defaulting to gift code sniping instead.");
-                return new GCSniper(name);
+                return new GCSniper(isRedeem, name);
             }
             return new MojangSniper(name);
         } else {
             if ((boolean) (accountData.get("GCSnipe")))
-                return new GCSniper(name);
+                return new GCSniper(isRedeem, name);
             return new MSASniper(name);
         }
     }
