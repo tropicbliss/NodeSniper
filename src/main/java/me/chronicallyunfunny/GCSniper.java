@@ -198,8 +198,6 @@ public class GCSniper implements Sniper {
             if (spread != 0)
                 Thread.sleep(spread);
         }
-        if (spread != 0)
-            Thread.sleep(spread);
         // I don't want to spawn a new thread when the main thread is free, so hardcoding it in.
         var lastResponse = client.send(snipeRequest, HttpResponse.BodyHandlers.discarding());
         var reqTime = Instant.now();
