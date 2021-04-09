@@ -26,7 +26,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GCSniper implements Sniper {
-    private final HttpClient client = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
+    private final HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(30)).build();
     private String authToken = null;
     private String snipedUsername = null;
     private long offset;
