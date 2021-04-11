@@ -48,7 +48,7 @@ This sniper was made because I just wanted to make a sniper for fun. It is also 
 
 ### Installation
 
-1. Download OpenJDK 11 [here](https://adoptopenjdk.net/).
+1. Download OpenJDK 11+ [here](https://adoptopenjdk.net/).
 2. Download the sniper [here](https://github.com/chronicallyunfunny/NodeSniper/releases/download/v2.6.1/NodeSniper-2.6.1.zip).
 3. Unzip the files and move it to an accessible directory in your computer.
 4. Set up Dimension 4 / `chronyd` and shit. If you came from MCsniperPY you should know.
