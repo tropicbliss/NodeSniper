@@ -173,7 +173,6 @@ public class GCSniper implements Sniper {
         var snipeRequest = HttpRequest.newBuilder().uri(uri)
                 .headers("Accept", "application/json", "Authorization", "Bearer " + authToken)
                 .POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
-        System.out.println("Setup complete!");
         var longDropTime = dropTime.minusMillis(offset).toEpochMilli();
         var longLagTime = longDropTime - 3_000L;
         if (System.currentTimeMillis() < longLagTime)

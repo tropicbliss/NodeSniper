@@ -127,7 +127,6 @@ public class MSASniper implements Sniper {
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
         var snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
-        System.out.println("Setup complete!");
         var longDropTime = dropTime.minusMillis(offset).toEpochMilli();
         var longLagTime = longDropTime - 3_000L;
         if (System.currentTimeMillis() < longLagTime)
