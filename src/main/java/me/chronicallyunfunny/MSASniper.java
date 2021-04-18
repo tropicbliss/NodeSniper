@@ -124,6 +124,9 @@ public class MSASniper implements Sniper {
         }
         else
             System.out.println("Sniping " + snipedUsername + " in ~" + duration + " minutes | sniping at " + niceDropTime + ".");
+        var longAuthenticationTime = dropTime.minusSeconds(20).minusMillis(offset).toEpochMilli();
+        if (System.currentTimeMillis() < longAuthenticationTime)
+            isNameChangeEligible(); // Pre-establish handshake to HTTP/2 origin server
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
         var snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
@@ -173,6 +176,7 @@ public class MSASniper implements Sniper {
                     throw new GeneralSniperException(
                             "[SkinChanger] HTTP status code: " + code);
                 System.out.println("Successfully changed skin!");
+                Unirest.shutDown();
             }
         }
         System.out.print("Press ENTER to quit: ");

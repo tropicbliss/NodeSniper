@@ -149,7 +149,7 @@ public class MojangSniper implements Sniper {
         }
         else
             System.out.println("Sniping " + snipedUsername + " in ~" + duration + " minutes | sniping at " + niceDropTime + ".");
-        var longAuthenticationTime = dropTime.minusSeconds(60).minusMillis(offset).toEpochMilli();
+        var longAuthenticationTime = dropTime.minusSeconds(20).minusMillis(offset).toEpochMilli();
         if (System.currentTimeMillis() < longAuthenticationTime) {
             Thread.sleep(longAuthenticationTime - System.currentTimeMillis());
             authenticate();
@@ -210,6 +210,7 @@ public class MojangSniper implements Sniper {
                     throw new GeneralSniperException(
                             "[SkinChanger] HTTP status code: " + code);
                 System.out.println("Successfully changed skin!");
+                Unirest.shutDown();
             }
         }
         System.out.print("Press ENTER to quit: ");
