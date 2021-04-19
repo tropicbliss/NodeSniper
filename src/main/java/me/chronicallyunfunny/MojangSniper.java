@@ -149,7 +149,11 @@ public class MojangSniper implements Sniper {
         }
         else
             System.out.println("Sniping " + snipedUsername + " in ~" + duration + " minutes | sniping at " + niceDropTime + ".");
-        var longAuthenticationTime = dropTime.minusSeconds(20).minusMillis(offset).toEpochMilli();
+        var longAuthenticationTime = dropTime.minusSeconds(5).minusMillis(offset).toEpochMilli();
+        var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
+        var snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
+                .PUT(HttpRequest.BodyPublishers.noBody()).build();
+        var longDropTime = dropTime.minusMillis(offset).toEpochMilli();
         if (System.currentTimeMillis() < longAuthenticationTime) {
             Thread.sleep(longAuthenticationTime - System.currentTimeMillis());
             authenticate();
@@ -160,14 +164,7 @@ public class MojangSniper implements Sniper {
             isNameAvailable();
         }
         System.out.println("Signed in to " + username + ".");
-        var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
-        var snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
-                .PUT(HttpRequest.BodyPublishers.noBody()).build();
         System.out.println("Setup complete!");
-        var longDropTime = dropTime.minusMillis(offset).toEpochMilli();
-        var longLagTime = longDropTime - 3_000L;
-        if (System.currentTimeMillis() < longLagTime)
-            Thread.sleep(longLagTime - System.currentTimeMillis());
         while ((System.currentTimeMillis()) < longDropTime)
             Thread.sleep(1);
         var firstResponse = client.sendAsync(snipeRequest, HttpResponse.BodyHandlers.discarding())

@@ -124,16 +124,15 @@ public class MSASniper implements Sniper {
         }
         else
             System.out.println("Sniping " + snipedUsername + " in ~" + duration + " minutes | sniping at " + niceDropTime + ".");
-        var longAuthenticationTime = dropTime.minusSeconds(20).minusMillis(offset).toEpochMilli();
-        if (System.currentTimeMillis() < longAuthenticationTime)
-            isNameChangeEligible(); // Pre-establish handshake to HTTP/2 origin server
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile/name/" + snipedUsername);
         var snipeRequest = HttpRequest.newBuilder().uri(uri).header("Authorization", "Bearer " + authToken)
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         var longDropTime = dropTime.minusMillis(offset).toEpochMilli();
-        var longLagTime = longDropTime - 3_000L;
-        if (System.currentTimeMillis() < longLagTime)
+        var longLagTime = longDropTime - 5_000L;
+        if (System.currentTimeMillis() < longLagTime) {
             Thread.sleep(longLagTime - System.currentTimeMillis());
+            isNameChangeEligible(); // Pre-establish handshake to HTTP/2 origin server
+        }
         while ((System.currentTimeMillis()) < longDropTime)
             Thread.sleep(1);
         var firstResponse = client.sendAsync(snipeRequest, HttpResponse.BodyHandlers.discarding())

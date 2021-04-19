@@ -165,21 +165,19 @@ public class GCSniper implements Sniper {
         if (duration == 0) {
             duration = Duration.between(now, dropTime).toSeconds();
             System.out.println("Sniping " + snipedUsername + " in ~" + duration + " seconds | sniping at " + niceDropTime + ".");
-        }
-        else
+        } else
             System.out.println("Sniping " + snipedUsername + " in ~" + duration + " minutes | sniping at " + niceDropTime + ".");
-        var longAuthenticationTime = dropTime.minusSeconds(20).minusMillis(offset).toEpochMilli();
-        if (System.currentTimeMillis() < longAuthenticationTime)
-            isNameChangeEligible(); // Pre-establish handshake to HTTP/2 origin server
         var postJSON = "{\"profileName\":\"" + snipedUsername + "\"}";
         var uri = new URI("https://api.minecraftservices.com/minecraft/profile");
         var snipeRequest = HttpRequest.newBuilder().uri(uri)
                 .headers("Accept", "application/json", "Authorization", "Bearer " + authToken)
                 .POST(HttpRequest.BodyPublishers.ofString(postJSON)).build();
         var longDropTime = dropTime.minusMillis(offset).toEpochMilli();
-        var longLagTime = longDropTime - 3_000L;
-        if (System.currentTimeMillis() < longLagTime)
+        var longLagTime = longDropTime - 5_000L;
+        if (System.currentTimeMillis() < longLagTime) {
             Thread.sleep(longLagTime - System.currentTimeMillis());
+            isNameChangeEligible(); // Pre-establish handshake to HTTP/2 origin server
+        }
         while ((System.currentTimeMillis()) < longDropTime)
             Thread.sleep(1);
         for (var request = 1; request < NO_OF_REQUESTS; request++) {
