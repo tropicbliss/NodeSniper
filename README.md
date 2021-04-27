@@ -10,6 +10,8 @@ This sniper will not be actively developed anymore. Feel free to fork it. Still 
 
 Disclaimer: A sniper will only be as good as how many accounts you have. MCsniperPY, GoSnipe, and NodeSniper doesn't support proxies so you can only use it with one account per instance. This sniper will only be as good as MCsniperPY and GoSnipe (but supports GC sniping so maybe slightly better 😼), which means that it is not suited to sniping highly searched names. Any other sniping service with their insane amount of accounts will easily snipe the name before you do. Sniping any name above 50 NameMC searches will require extremely good luck on your end. Good luck!
 
+Feel free to skid this sniper, sell it, do whatever you want with it. Just *maybe* give some credit to me plz, and I will be happy 😊.
+
 ## Features
 
 - Mojang account sniping
