@@ -4,6 +4,10 @@ A Minecraft username sniper made in Java.
 
 <img src="https://img.shields.io/badge/JDK-11-orange"> [![CodeFactor](https://www.codefactor.io/repository/github/chronicallyunfunny/nodesniper/badge/main)](https://www.codefactor.io/repository/github/chronicallyunfunny/nodesniper/overview/main) [![Java CI with Maven](https://github.com/chronicallyunfunny/NodeSniper/actions/workflows/maven.yml/badge.svg)](https://github.com/chronicallyunfunny/NodeSniper/actions/workflows/maven.yml) <img src="https://img.shields.io/badge/Version-2.6.1-brightgreen">
 
+# New update
+
+Due to the GoSnipe auth server recently going down, I decided to self-host an auth server I wrote by myself in Python. This new update redirects the user to my self hosted auth server in lieu of GoSnipe's auth server.
+
 ## Note
 
 This sniper will not be actively developed anymore. Feel free to fork it. Still works at the time of writing btw.
@@ -38,7 +42,6 @@ This sniper was made because I just wanted to make a sniper for fun. It is also 
 - [MCsniperPY](https://github.com/MCsniperPY/MCsniperPY) for referencing the APIs used.
 - [This](https://mojang-api-docs.netlify.app/) Mojang API documentation for the reference.
 - [Kqzz's MC-API](https://kqzz.github.io/MC-API/#/)
-- [MSAuth Server](https://github.com/MCGoSnipe/api-endpoints)
 
 ### Dependencies used:
 
@@ -51,7 +54,7 @@ This sniper was made because I just wanted to make a sniper for fun. It is also 
 ### Installation
 
 1. Download OpenJDK 11 or newer [here](https://adoptopenjdk.net/).
-2. Download the sniper [here](https://github.com/chronicallyunfunny/NodeSniper/releases/download/v2.6.1/NodeSniper-2.6.1.zip).
+2. Download the sniper [here](https://github.com/chronicallyunfunny/NodeSniper/releases/download/v2.6.2/NodeSniper-2.6.2.zip).
 3. Unzip the files and move it to an accessible directory in your computer.
 4. Set up Dimension 4 / `chronyd` and shit. If you came from MCsniperPY you should know.
 
@@ -94,13 +97,13 @@ skinFileName: The name of the skin file, with extensions of course.
 Navigate to the directory in which the sniper, account and config files are from your terminal. Again if you are not sure MCsniperPY documents a similar process right [here](https://github.com/MCsniperPY/MCsniperPY#installing-dependencies). After that type in the following:
 
 ```
-java -jar NodeSniper-2.6.1.jar
+java -jar NodeSniper-2.6.2.jar
 ```
 
 or if you are using a Mojang account and want to automate the process:
 
 ```
-java -jar NodeSniper-2.6.1.jar <username>
+java -jar NodeSniper-2.6.2.jar <username>
 ```
 
 ## Packaging JAR file from source
