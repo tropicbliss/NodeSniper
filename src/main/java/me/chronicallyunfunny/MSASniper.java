@@ -239,7 +239,7 @@ public class MSASniper implements Sniper {
         // Gives the user an illusion that something is happening.
         Thread.sleep(3_000);
         var uri = new URI(
-                "https://login.live.com/oauth20_authorize.srf?client_id=9abe16f4-930f-4033-b593-6e934115122f&response_type=code&redirect_uri=https%3A%2F%2Fapi.gosnipe.tech%2Fapi%2Fauthenticate&scope=XboxLive.signin%20XboxLive.offline_access");
+                "https://login.live.com/oauth20_authorize.srf?client_id=68f2f45b-02e2-4625-8225-25c6fcc25039&response_type=code&redirect_uri=https://buckshotrs.com/auth:1338&scope=XboxLive.signin%20offline_access&state=STORAGE_ID");
         authTime = Instant.now();
         try {
             Desktop.getDesktop().browse(uri);
