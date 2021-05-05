@@ -6,7 +6,7 @@ A Minecraft username sniper made in Java.
 
 ## New update
 
-Due to the GoSnipe auth server recently going down, I decided to self-host an auth server I wrote by myself in Python. This new update redirects the user to my self hosted auth server in lieu of GoSnipe's auth server.
+Due to the GoSnipe auth server recently going down, I decided to self-host an auth server.
 
 ## Note
 
