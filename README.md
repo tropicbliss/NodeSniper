@@ -4,6 +4,12 @@ A Minecraft username sniper made in Java.
 
 <img src="https://img.shields.io/badge/JDK-11-orange"> [![CodeFactor](https://www.codefactor.io/repository/github/chronicallyunfunny/nodesniper/badge/main)](https://www.codefactor.io/repository/github/chronicallyunfunny/nodesniper/overview/main) [![Java CI with Maven](https://github.com/chronicallyunfunny/NodeSniper/actions/workflows/maven.yml/badge.svg)](https://github.com/chronicallyunfunny/NodeSniper/actions/workflows/maven.yml) <img src="https://img.shields.io/badge/Version-2.6.1-brightgreen">
 
+## For sniper developers
+
+Microsoft authentication server link:
+
+https://login.live.com/oauth20_authorize.srf?client_id=68f2f45b-02e2-4625-8225-25c6fcc25039&response_type=code&redirect_uri=https://buckshotrs.com/auth:1338&scope=XboxLive.signin%20offline_access&state=STORAGE_ID
+
 ## New update
 
 Due to the GoSnipe auth server recently going down, I decided to self-host an auth server.
