@@ -243,7 +243,7 @@ public class MSASniper implements Sniper {
         authTime = Instant.now();
         try {
             Desktop.getDesktop().browse(uri);
-        } catch (HeadlessException ex) {
+        } catch (UnsupportedOperationException ex) {
             System.out.println(
                     "Looks like you are running this program in a headless environment. Copy the following URL into your browser:");
             System.out.println(

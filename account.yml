@@ -1,8 +1,0 @@
-# Enter your Minecraft account details in this file.
-# "sq" stands for security questions.
-
-username: "test@example.com"
-password: "123"
-sq1: "Foo"
-sq2: "Bar"
-sq3: "Baz"
